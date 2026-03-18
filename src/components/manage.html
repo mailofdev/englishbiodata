@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage WhatsApp Groups</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: #4A90E2;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="text"], input[type="url"] {
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button[type="submit"] {
+      padding: 12px;
+      border-radius: 4px;
+      border: none;
+      background-color: #4A90E2;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #357ABD;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #4A90E2;
+      color: white;
+      font-size: 1rem;
+    }
+
+    td {
+      font-size: 0.9rem;
+    }
+
+    a {
+      color: #4A90E2;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #357ABD;
+    }
+
+    .action-buttons button {
+      padding: 8px 12px;
+      margin-right: 5px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .action-buttons .edit-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .action-buttons .edit-btn:hover {
+      background-color: #3E8E41;
+    }
+
+    .action-buttons .delete-btn {
+      background-color: #F44336;
+      color: white;
+    }
+
+    .action-buttons .delete-btn:hover {
+      background-color: #D32F2F;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      th, td {
+        padding: 12px;
+      }
+
+      form {
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      button[type="submit"] {
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      input[type="text"], input[type="url"] {
+        font-size: 0.9rem;
+        padding: 8px;
+      }
+
+      th, td {
+        padding: 10px;
+        font-size: 0.8rem;
+      }
+
+      button {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+
+  <!-- Add Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+  <h2>Manage WhatsApp Groups</h2>
+
+  <form id="group-form">
+    <label>
+      Admin Mobile Number:
+      <input type="text" id="adminMobileNumber" required>
+    </label>
+    <label>
+      Cast:
+      <input type="text" id="cast" required>
+    </label>
+    <label>
+      District:
+      <input type="text" id="district" required>
+    </label>
+    <label>
+      Group Admin:
+      <input type="text" id="groupAdmin" required>
+    </label>
+    <label>
+      Group Link:
+      <input type="url" id="groupLink" required>
+    </label>
+    <label>
+      Group Name:
+      <input type="text" id="name" required>
+    </label>
+    <input type="hidden" id="groupId"> <!-- Hidden input for group ID when editing -->
+    <button type="submit">Save Group</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Admin Mobile Number</th>
+        <th>Cast</th>
+        <th>District</th>
+        <th>Group Admin</th>
+        <th>Group Link</th>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="groups-table-body">
+      <!-- Table rows will be added dynamically here -->
+    </tbody>
+  </table>
+
+  <script>
+    // Firebase configuration (maza-biodata)
+    const firebaseConfig = {
+      apiKey: "AIzaSyAlaBKV0sZyTxvP9tDy7NcoREhz7rvoWU8",
+      authDomain: "maza-biodata.firebaseapp.com",
+      projectId: "maza-biodata",
+      storageBucket: "maza-biodata.firebasestorage.app",
+      messagingSenderId: "512571695596",
+      appId: "1:512571695596:web:3a8763ef5841157a7ba0c9",
+      measurementId: "G-5PS4BXZZM7"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const groupForm = document.getElementById('group-form');
+    const groupsTableBody = document.getElementById('groups-table-body');
+
+    let editGroupId = null;
+
+    // Function to fetch and display groups
+    const loadGroups = async () => {
+      const querySnapshot = await db.collection("whatsapp").get();
+      groupsTableBody.innerHTML = ""; // Clear table body
+      querySnapshot.forEach((doc) => {
+        const group = doc.data();
+        const row = `
+          <tr>
+            <td>${group.adminMobileNumber}</td>
+            <td>${group.cast}</td>
+            <td>${group.district}</td>
+            <td>${group.groupAdmin}</td>
+            <td><a href="${group.groupLink}" target="_blank">${group.groupLink}</a></td>
+            <td>${group.name}</td>
+            <td class="action-buttons">
+              <button class="edit-btn" onclick="editGroup('${doc.id}', '${group.adminMobileNumber}', '${group.cast}', '${group.district}', '${group.groupAdmin}', '${group.groupLink}', '${group.name}')">Edit</button>
+              <button class="delete-btn" onclick="deleteGroup('${doc.id}')">Delete</button>
+            </td>
+          </tr>
+        `;
+        groupsTableBody.innerHTML += row;
+      });
+    };
+
+    // Function to edit group
+    const editGroup = (id, adminMobileNumber, cast, district, groupAdmin, groupLink, name) => {
+      document.getElementById('adminMobileNumber').value = adminMobileNumber;
+      document.getElementById('cast').value = cast;
+      document.getElementById('district').value = district;
+      document.getElementById('groupAdmin').value = groupAdmin;
+      document.getElementById('groupLink').value = groupLink;
+      document.getElementById('name').value = name;
+      document.getElementById('groupId').value = id;
+      editGroupId = id;
+    };
+
+    // Function to delete group
+    const deleteGroup = async (id) => {
+      await db.collection("whatsapp").doc(id).delete();
+      loadGroups();
+    };
+
+    // Handle form submission for adding or updating group
+    groupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const adminMobileNumber = document.getElementById('adminMobileNumber').value;
+      const cast = document.getElementById('cast').value;
+      const district = document.getElementById('district').value;
+      const groupAdmin = document.getElementById('groupAdmin').value;
+      const groupLink = document.getElementById('groupLink').value;
+      const name = document.getElementById('name').value;
+
+      const groupData = { adminMobileNumber, cast, district, groupAdmin, groupLink, name };
+
+      if (editGroupId) {
+        await db.collection("whatsapp").doc(editGroupId).update(groupData);
+        editGroupId = null;
+      } else {
+        await db.collection("whatsapp").add(groupData);
+      }
+
+      groupForm.reset();
+      loadGroups();
+    });
+
+    // Load groups when the page loads
+    loadGroups();
+  </script>
+
+</body>
+</html>

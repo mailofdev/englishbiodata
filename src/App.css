@@ -1,0 +1,404 @@
+/* ============================================
+   MAZABIODATA – Bootstrap overrides only
+   Use Bootstrap classes in components; override here when needed.
+   ============================================ */
+
+/* ---------- CSS variables (for overrides) ---------- */
+:root {
+  /* Typography */
+  --maza-font: "Poppins", "Noto Sans Devanagari", "Tiro Devanagari Marathi", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Primary – Royal Plum (Trust + Tradition, no blue/green/orange) */
+  --maza-primary: #5C2D6E;
+  --maza-primary-dark: #3D1F4E;
+  --maza-primary-gradient: linear-gradient(135deg, #5C2D6E 0%, #4A2559 40%, #3D1F4E 100%);
+
+  /* Accent – Soft Gold (elegant wedding touch) */
+  --maza-accent: #C9A86C;
+
+  /* Backgrounds & Borders */
+  --maza-bg: #FAF7F5;
+  --maza-border: #E8E0DC;
+
+  /* Text Colors */
+  --maza-text: #2D2528;
+  --maza-text-muted: #6B5E65;
+
+  /* Status Colors (violet for success; soft red for danger) */
+  --maza-success: #6D28D9;
+  --maza-danger-soft: #B83D52;
+}
+/* ---------- Body ---------- */
+body {
+  font-family: var(--maza-font);
+  color: var(--maza-text);
+  background-color: #F8F6F4;
+  line-height: 1.6;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+/* ---------- Main: space for fixed navbar ---------- */
+main {
+  padding-top: 5rem;
+  flex: 1;
+}
+@media (min-width: 768px) {
+  main { padding-top: 6rem; }
+}
+
+/* ---------- Bootstrap overrides ---------- */
+.btn-primary {
+  background-color: var(--maza-primary);
+  border-color: var(--maza-primary);
+}
+.btn-primary:hover {
+  background-color: var(--maza-primary-dark);
+  border-color: var(--maza-primary-dark);
+}
+.btn-outline-primary {
+  color: var(--maza-primary);
+  border-color: var(--maza-primary);
+}
+.btn-outline-primary:hover {
+  background-color: var(--maza-primary);
+  border-color: var(--maza-primary);
+  color: #fff;
+}
+.btn-success {
+  background-color: var(--maza-success);
+  border-color: var(--maza-success);
+}
+.btn-success:hover {
+  background-color: #5B21B6;
+  border-color: #5B21B6;
+}
+.btn-danger {
+  background-color: var(--maza-danger-soft);
+  border-color: var(--maza-danger-soft);
+}
+.btn-danger:hover {
+  background-color: #9E2D42;
+  border-color: #9E2D42;
+}
+.text-primary { color: var(--maza-primary) !important; }
+.bg-primary { background: var(--maza-primary-gradient) !important; background-color: var(--maza-primary); }
+.border-primary { border-color: var(--maza-primary) !important; }
+
+/* Navbar: link colors */
+.navbar .nav-link {
+  color: var(--maza-text) !important;
+  font-weight: 500;
+}
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+  color: var(--maza-primary) !important;
+}
+.navbar .nav-link.active {
+  color: var(--maza-primary) !important;
+  font-weight: 600;
+}
+
+/* Footer: link hover */
+footer .text-white:hover {
+  opacity: 0.9;
+}
+footer .opacity-75:hover {
+  opacity: 1 !important;
+}
+
+/* Form controls */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--maza-primary);
+  box-shadow: 0 0 0 0.2rem rgba(92, 45, 110, 0.2);
+}
+
+/* Card – consistent card UI */
+.card {
+  border-radius: 0.75rem;
+  border: 1px solid var(--maza-border);
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.08);
+}
+.card.shadow {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+/* Hero section – force white text on gradient background */
+.hero-section,
+.hero-section * {
+  color: #fff !important;
+}
+
+/* Hero left/right decorative images – couple (left), marriage (right) */
+.hero-section-with-deco .hero-deco {
+  flex-shrink: 0;
+}
+.hero-deco-svg,
+.hero-deco-img {
+  max-width: 160px;
+  height: 100%;
+  opacity: 0.5;
+  object-fit: contain;
+}
+.hero-deco-img {
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
+}
+@media (min-width: 992px) {
+  .hero-deco-svg,
+  .hero-deco-img {
+    max-width: 200px;
+  }
+}
+@media (min-width: 1200px) {
+  .hero-deco-svg,
+  .hero-deco-img {
+    max-width: 240px;
+  }
+}
+.hero-section .hero-subtitle,
+.hero-section .hero-tagline {
+  opacity: 0.95;
+}
+.hero-section .btn-light {
+  color: var(--maza-primary) !important;
+  background: #fff !important;
+  border-color: #fff !important;
+}
+.hero-section .btn-outline-light {
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.9) !important;
+  background: transparent !important;
+}
+.hero-section .btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+/* Footer – force white text for readability on primary gradient */
+footer.bg-primary,
+footer.bg-primary *,
+footer.bg-primary a {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+footer.bg-primary a:hover {
+  color: #fff !important;
+  opacity: 1;
+}
+footer.bg-primary .text-opacity-75 {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Table thead when using table-primary */
+.table-primary {
+  background-color: var(--maza-primary) !important;
+  color: #fff !important;
+}
+.table-primary th {
+  border-color: rgba(255,255,255,0.2);
+}
+
+/* Marathi / Devanagari (Poppins first, Devanagari fallback for script) */
+.marathi-text,
+[lang="mr"] {
+  font-family: var(--maza-font);
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+}
+
+/* Form group spacing (used in InputForm) */
+.form-group-spaced {
+  margin-bottom: 1rem;
+}
+.form-group-spaced .form-label {
+  margin-bottom: 0.35rem;
+}
+
+/* Required fields: asterisk already in label; optional subtle border */
+.field-required .form-label {
+  font-weight: 600;
+}
+
+/* Missing required fields (after failed submit) */
+.field-missing {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--maza-danger-soft);
+  background-color: rgba(184, 61, 82, 0.08);
+}
+.field-missing .form-label,
+.field-missing .form-control,
+.field-missing .form-select {
+  color: var(--maza-danger-soft);
+}
+.field-missing .form-control:focus,
+.field-missing .form-select:focus {
+  border-color: var(--maza-danger-soft);
+  box-shadow: 0 0 0 0.2rem rgba(184, 61, 82, 0.2);
+}
+
+/* Form section headers (InputForm) */
+.card-header.border-start.border-primary {
+  border-left-width: 4px !important;
+}
+
+/* Deity accent block (InputForm – कुलदैवत, देवक) */
+.deity-accent {
+  border-left: 4px solid var(--maza-accent);
+  background: linear-gradient(90deg, rgba(201, 168, 108, 0.14) 0%, transparent 100%);
+  padding: 0.75rem 1rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* ---------- Photo upload / crop flow (तुमचा फोटो जोडा) ---------- */
+.photo-upload-flow {
+  max-width: 100%;
+}
+
+.photo-crop-area {
+  position: relative;
+  width: 100%;
+  min-height: 260px;
+}
+
+.photo-crop-area .reactEasyCrop_Container {
+  border-radius: 1rem;
+}
+
+.photo-preview-section {
+  text-align: center;
+}
+
+.photo-preview-frame {
+  max-width: 100%;
+  padding: 0.5rem;
+}
+
+.photo-preview-img {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 576px) {
+  .photo-preview-img {
+    max-width: 320px;
+    max-height: 320px;
+  }
+}
+
+@media (min-width: 768px) {
+  .photo-preview-img {
+    max-width: 360px;
+    max-height: 360px;
+  }
+}
+
+/* PDF / biodata preview image (Preview page) – all devices */
+.pdf-preview-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.pdf-preview-img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: min(70vh, 900px);
+  object-fit: contain;
+  display: block;
+}
+
+/* Loader z-index when shown over content */
+.position-fixed.z-3 {
+  z-index: 1050;
+}
+
+@media print {
+  body { background: #fff; }
+}
+
+.hero-bg {
+  background: var(--maza-primary-gradient) !important;
+}
+
+/* Hero with 3marrige image – background set inline; fallback color while image loads */
+.hero-bg-image {
+  background-color: var(--maza-primary);
+}
+.primary-color {
+  background: var(--maza-primary-gradient) !important;
+}
+
+/* Template Preview modal – fit on screen, no scroll, centered */
+.template-preview-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  width: 100%;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow: auto;
+}
+.template-preview-modal .modal-dialog {
+  max-height: calc(100vh - 2rem);
+  margin: 1rem auto;
+  display: flex;
+  flex-direction: column;
+}
+.template-preview-modal .modal-content {
+  max-height: calc(100vh - 2rem);
+  display: flex;
+  flex-direction: column;
+}
+.template-preview-modal .modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.template-preview-modal .modal-body img {
+  max-height: calc(100vh - 180px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* Home page – consistent section spacing and overflow */
+.home-page {
+  overflow-x: hidden;
+}
+
+/* Home page – Kundali CTA section (background image + overlay, white text) */
+.kundali-cta-section,
+.kundali-cta-section * {
+  color: #fff !important;
+}
+.kundali-cta-section .btn-light {
+  color: var(--maza-primary) !important;
+  background: #fff !important;
+  border-color: #fff !important;
+}
+.kundali-cta-section .btn-light:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.9) !important;
+  color: var(--maza-primary) !important;
+}
+
+/* Home page – Features section alternate background */
+.home-features-section {
+  background-color: var(--maza-bg, #FFF7F4);
+}

@@ -1,0 +1,4 @@
+# API first (must be before SPA catch-all)
+/api/kundli-match    /.netlify/functions/kundli-match    200
+# SPA fallback
+/*    /index.html   200

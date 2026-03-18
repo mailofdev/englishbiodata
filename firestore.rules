@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // placeCache and gunMilanCache are written by Cloud Functions (admin).
+    match /placeCache/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /gunMilanCache/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+    // JoinWhatsApp page and manage.html use this collection.
+    match /whatsapp/{doc} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}

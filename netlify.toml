@@ -1,0 +1,22 @@
+# Netlify build (same as Vercel: React build -> build/)
+[build]
+  command = "npm run build"
+  publish = "build"
+  functions = "netlify/functions"
+
+# Allow these in build/repo: geocode URL is public (client-side); example file has placeholders only
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "REACT_APP_GEOCODE_FUNCTION_URL,GOOGLE_GEOCODING_API_KEY"
+
+# API: rewrite /api/kundli-match to Netlify Function (must be before SPA catch-all)
+[[redirects]]
+  from = "/api/kundli-match"
+  to = "/.netlify/functions/kundli-match"
+  status = 200
+  force = true
+
+# SPA fallback: all other routes -> index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firestore CRUD with Table</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    form {
+      margin-top: 20px;
+    }
+    form input, form button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .action-buttons button {
+      margin-right: 10px;
+      padding: 5px 10px;
+    }
+    .action-buttons button.update {
+      background-color: #ffc107;
+      color: black;
+    }
+    .action-buttons button.update:hover {
+      background-color: #e0a800;
+    }
+    .action-buttons button.delete {
+      background-color: #dc3545;
+      color: white;
+    }
+    .action-buttons button.delete:hover {
+      background-color: #c82333;
+    }
+    .loading {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Firestore CRUD with Table</h1>
+
+    <form id="recordForm">
+      <input type="hidden" id="recordId" />
+      <input type="text" id="name" placeholder="Name" required />
+      <input type="text" id="adminMobileNumber" placeholder="Admin Mobile Number" required />
+      <input type="text" id="cast" placeholder="Cast" required />
+      <input type="text" id="district" placeholder="District" required />
+      <input type="text" id="groupAdmin" placeholder="Group Admin" required />
+      <input type="url" id="groupLink" placeholder="Group Link" required />
+      <button type="submit">Save Record</button>
+      <button type="button" id="cancelButton">Cancel</button>
+    </form>
+
+    <h2>Records</h2>
+    <div class="loading" id="loadingMessage" style="display: none;">Loading...</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Admin Mobile Number</th>
+          <th>Cast</th>
+          <th>District</th>
+          <th>Group Admin</th>
+          <th>Group Link</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="recordsTableBody"></tbody>
+    </table>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAlaBKV0sZyTxvP9tDy7NcoREhz7rvoWU8",
+      authDomain: "maza-biodata.firebaseapp.com",
+      projectId: "maza-biodata",
+      storageBucket: "maza-biodata.firebasestorage.app",
+      messagingSenderId: "512571695596",
+      appId: "1:512571695596:web:3a8763ef5841157a7ba0c9",
+      measurementId: "G-5PS4BXZZM7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const recordForm = document.getElementById("recordForm");
+    const recordsTableBody = document.getElementById("recordsTableBody");
+    const loadingMessage = document.getElementById("loadingMessage");
+
+    recordForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const recordId = document.getElementById("recordId").value;
+      const record = {
+        name: document.getElementById("name").value,
+        adminMobileNumber: document.getElementById("adminMobileNumber").value,
+        cast: document.getElementById("cast").value,
+        district: document.getElementById("district").value,
+        groupAdmin: document.getElementById("groupAdmin").value,
+        groupLink: document.getElementById("groupLink").value,
+      };
+
+      try {
+        if (recordId) {
+          await setDoc(doc(db, "whatsapp", recordId), record);
+          alert("Record updated successfully!");
+        } else {
+          await addDoc(collection(db, "whatsapp"), record);
+          alert("Record added successfully!");
+        }
+        recordForm.reset();
+        document.getElementById("recordId").value = "";
+        loadRecords();
+      } catch (error) {
+        alert("An error occurred. Please try again.");
+      }
+    });
+
+    document.getElementById("cancelButton").addEventListener("click", () => {
+      recordForm.reset();
+      document.getElementById("recordId").value = "";
+    });
+
+    async function loadRecords() {
+      recordsTableBody.innerHTML = "";
+      loadingMessage.style.display = "block";
+      try {
+        const snapshot = await getDocs(collection(db, "whatsapp"));
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          recordsTableBody.innerHTML += `
+            <tr id="${doc.id}">
+              <td>${data.name}</td>
+              <td>${data.adminMobileNumber}</td>
+              <td>${data.cast}</td>
+              <td>${data.district}</td>
+              <td>${data.groupAdmin}</td>
+              <td><a href="${data.groupLink}" target="_blank">Link</a></td>
+              <td class="action-buttons">
+                <button class="update" onclick="editRecord('${doc.id}', ${JSON.stringify(data).replace(/"/g, '&quot;')})">Update</button>
+                <button class="delete" onclick="deleteRecord('${doc.id}')">Delete</button>
+              </td>
+            </tr>
+          `;
+        });
+      } catch (error) {
+        alert("An error occurred while loading records.");
+      }
+      loadingMessage.style.display = "none";
+    }
+
+// Attach functions to the window object
+window.editRecord = (id, data) => {
+  document.getElementById("recordId").value = id;
+  document.getElementById("name").value = data.name;
+  document.getElementById("adminMobileNumber").value = data.adminMobileNumber;
+  document.getElementById("cast").value = data.cast;
+  document.getElementById("district").value = data.district;
+  document.getElementById("groupAdmin").value = data.groupAdmin;
+  document.getElementById("groupLink").value = data.groupLink;
+};
+
+window.deleteRecord = async (id) => {
+  if (confirm("Are you sure you want to delete this record?")) {
+    try {
+      await deleteDoc(doc(db, "whatsapp", id));
+      alert("Record deleted successfully!");
+      loadRecords();
+    } catch (error) {
+      alert("An error occurred while deleting the record.");
+    }
+  }
+};
+
+
+    loadRecords();
+  </script>
+</body>
+</html>
