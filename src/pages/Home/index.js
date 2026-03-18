@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import QuoteSlideshow from '../../components/home/QuoteSlideshow';
 import TemplateSlider from '../../components/home/TemplateSlider';
 import marriage3Image from '../../assets/images/hands2.jpeg';
+import { content } from '../../content/staticContent';
 
 const FAQ_ITEMS = [
-  { q: 'How to create Marathi marriage biodata online?', a: 'Select a template (टेम्प्लेट निवडा), fill in details (माहिती भरा), preview (पूर्वावलोकन पाहा), and download the PDF (PDF डाउनलोड करा).' },
-  { q: 'Is Marathi biodata maker free?', a: 'Preview is free (मोफत पूर्वावलोकन). Final download may require a small fee (डाउनलोडसाठी शुल्क लागू शकते).' },
-  { q: 'What details should be included in marriage biodata?', a: 'Name (नाव), Date of Birth (जन्मतारीख), Height (उंची), Education (शिक्षण), Profession (व्यवसाय), Family details (कुटुंब माहिती), Horoscope details (कुंडली माहिती), Contact number (संपर्क क्रमांक).' },
-  { q: 'Is Kundali matching necessary for marriage?', a: 'In traditional Hindu marriages, Kundali matching (कुंडली जुळवणी) is considered important for compatibility analysis.' },
-  { q: 'Can biodata be edited after creation?', a: 'Yes, you can edit details (माहिती संपादित करा) before final PDF download (अंतिम डाउनलोडपूर्वी बदल शक्य).' },
+  { q: 'How to create marriage biodata online?', a: 'Select a template, fill in your details, preview, and download the PDF.' },
+  { q: 'Is the biodata maker free?', a: 'Preview is free. Final download may require a small fee.' },
+  { q: 'What details should be included in marriage biodata?', a: 'Name, Date of Birth, Height, Education, Profession, Family details, Horoscope details, and Contact number.' },
+  { q: 'Is Kundali matching necessary for marriage?', a: 'In traditional Hindu marriages, Kundali matching is often considered important for compatibility analysis.' },
+  { q: 'Can biodata be edited after creation?', a: 'Yes, you can edit details before the final PDF download.' },
 ];
 
 const HomePage = () => {
@@ -17,20 +18,21 @@ const HomePage = () => {
   const [selectedCategory] = useState('All');
   const [previewTemplate, setPreviewTemplate] = useState(null);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const home = content.pages?.home;
 
   const templates = [
-    { id: 1, category: 'Hindu', imageUrl: './Marriage Biodata Template-01.png', bestSeller: true, altName: 'मराठी बायोडाटा मेकर' },
-    { id: 2, category: 'Muslim', imageUrl: './Marriage Biodata Template-02.png', bestSeller: false, altName: 'फ्री बायोडाटा बनवा' },
-    { id: 3, category: 'Hindu', imageUrl: './Marriage Biodata Template-03.png', bestSeller: false, altName: 'मराठी बायोडाटा टेम्प्लेट्स' },
-    { id: 4, category: 'Hindu', imageUrl: './Marriage Biodata Template-04.png', bestSeller: false, altName: 'आकर्षक बायोडाटा तयार करा' },
-    { id: 5, category: 'Hindu', imageUrl: './Marriage Biodata Template-05.png', bestSeller: false, altName: 'ऑनलाइन बायोडाटा जनरेटर' },
-    { id: 6, category: 'Hindu', imageUrl: './Marriage Biodata Template-06.png', bestSeller: false, altName: 'बायोडाटा डिझाइन मराठीत' },
-    { id: 7, category: 'Muslim', imageUrl: './Marriage Biodata Template-07.png', bestSeller: false, altName: 'बायोडाटा फॉर्म मराठी' },
-    { id: 8, category: 'Jain', imageUrl: './Marriage Biodata Template-08.png', bestSeller: true, altName: 'आधुनिक बायोडाटा टेम्प्लेट' },
-    { id: 9, category: 'Hindu', imageUrl: './Marriage Biodata Template-09.png', bestSeller: false, altName: 'लग्नाचा बायोडाटा' },
-    { id: 10, category: 'Baudhha', imageUrl: './Marriage Biodata Template-10.png', bestSeller: false, altName: 'मराठी बायोडाटा मेकर' },
-    { id: 11, category: 'Jain', imageUrl: './Marriage Biodata Template-11.png', bestSeller: false, altName: 'मराठी बायोडाटा उदाहरण' },
-    { id: 12, category: 'Jain', imageUrl: './Marriage Biodata Template-12.png', bestSeller: false, altName: 'वैयक्तिक माहिती बायोडाटा मराठीत' },
+    { id: 1, category: 'Hindu', imageUrl: './Marriage Biodata Template-01.png', bestSeller: true, altName: 'Marriage biodata maker' },
+    { id: 2, category: 'Muslim', imageUrl: './Marriage Biodata Template-02.png', bestSeller: false, altName: 'Create biodata for free' },
+    { id: 3, category: 'Hindu', imageUrl: './Marriage Biodata Template-03.png', bestSeller: false, altName: 'Biodata templates' },
+    { id: 4, category: 'Hindu', imageUrl: './Marriage Biodata Template-04.png', bestSeller: false, altName: 'Create an attractive biodata' },
+    { id: 5, category: 'Hindu', imageUrl: './Marriage Biodata Template-05.png', bestSeller: false, altName: 'Online biodata generator' },
+    { id: 6, category: 'Hindu', imageUrl: './Marriage Biodata Template-06.png', bestSeller: false, altName: 'Biodata design' },
+    { id: 7, category: 'Muslim', imageUrl: './Marriage Biodata Template-07.png', bestSeller: false, altName: 'Biodata form' },
+    { id: 8, category: 'Jain', imageUrl: './Marriage Biodata Template-08.png', bestSeller: true, altName: 'Modern biodata template' },
+    { id: 9, category: 'Hindu', imageUrl: './Marriage Biodata Template-09.png', bestSeller: false, altName: 'Wedding biodata' },
+    { id: 10, category: 'Baudhha', imageUrl: './Marriage Biodata Template-10.png', bestSeller: false, altName: 'Marriage biodata maker' },
+    { id: 11, category: 'Jain', imageUrl: './Marriage Biodata Template-11.png', bestSeller: false, altName: 'Biodata example' },
+    { id: 12, category: 'Jain', imageUrl: './Marriage Biodata Template-12.png', bestSeller: false, altName: 'Personal details biodata' },
   ];
 
   const handleCustomizeClick = (template) => navigate(`/input-form/${template.id}`);
@@ -60,18 +62,18 @@ const HomePage = () => {
             {/* Center content */}
             <div className="col-12 text-center">
               <h1 className="hero-heading fw-bold mb-3">
-                Marathi Marriage Biodata & 36 Gun Kundali Matching - All in One Place
+                {home?.heroTitle}
               </h1>
               <p className="hero-subtitle lead mb-3 mx-auto opacity-90 marathi-text" style={{ maxWidth: '32rem' }}>
-                Fast. Professional. Reliable.
+                {home?.heroSubtitle}
               </p>
 
               <div className="d-flex flex-wrap justify-content-center gap-3 mb-3">
                 <button type="button" className="btn btn-light btn-lg rounded-pill px-4 py-3 fw-semibold shadow" onClick={handleScrollToTemplates}>
-                  बायोडाटा तयार करा
+                  {home?.heroCtaPrimary}
                 </button>
                 <button type="button" className="btn btn-outline-light btn-lg rounded-pill px-4 py-3 fw-semibold border-2" onClick={kundaliMatch}>
-                  कुंडली गुणमिलन
+                  {home?.heroCtaSecondary}
                 </button>
               </div>
 
@@ -96,23 +98,23 @@ const HomePage = () => {
               <ul className="list-unstyled d-flex flex-column gap-1 mb-0">
                 <li className="d-flex align-items-start gap-2">
                   <span className="text-primary">•</span>
-                  <span>Marathi marriage biodata PDF (मराठी लग्न बायोडाटा PDF)</span>
+                  <span>Marriage biodata PDF</span>
                 </li>
                 <li className="d-flex align-items-start gap-2">
                   <span className="text-primary">•</span>
-                  <span>Bride & Groom biodata format (वधू-वर बायोडाटा फॉरमॅट)</span>
+                  <span>Bride & Groom biodata format</span>
                 </li>
                 <li className="d-flex align-items-start gap-2">
                   <span className="text-primary">•</span>
-                  <span>Online Kundali Matching (ऑनलाईन कुंडली जुळवणी)</span>
+                  <span>Online Kundali Matching</span>
                 </li>
                 <li className="d-flex align-items-start gap-2">
                   <span className="text-primary">•</span>
-                  <span>Traditional Marathi biodata designs (पारंपरिक मराठी डिझाईन)</span>
+                  <span>Traditional biodata designs</span>
                 </li>
                 <li className="d-flex align-items-start gap-2">
                   <span className="text-primary">•</span>
-                  <span>Instant download without watermark (तत्काळ डाउनलोड)</span>
+                  <span>Instant download without watermark</span>
                 </li>
               </ul>
             </div>
@@ -132,18 +134,18 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* 2. How to Create Marathi Biodata in 2 Minutes */}
+      {/* 2. How to Create Biodata in 2 Minutes */}
       <section className="py-3 py-md-4 bg-white" aria-labelledby="how-it-works-heading">
         <div className="container px-3 px-md-4">
-          <h2 id="how-it-works-heading" className="h4 fw-bold text-primary text-center mb-2">How to Create Marathi Biodata in 2 Minutes</h2>
+          <h2 id="how-it-works-heading" className="h4 fw-bold text-primary text-center mb-2">{home?.sections?.howItWorks}</h2>
           <p className="text-center text-muted small mb-3">Follow these simple steps. No technical skills required. Mobile-friendly and user-friendly interface.</p>
           <div className="row g-3 g-md-4">
             <div className="col-12 col-md-4">
               <div className="card h-100 border shadow-sm rounded-3 overflow-hidden" style={{ borderColor: 'var(--maza-border)' }}>
                 <div className="card-body text-center p-4 p-md-4">
                   <span className="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center fw-bold mb-3" style={{ width: 48, height: 48, fontSize: '1.25rem' }}>1</span>
-                  <h3 className="h6 fw-bold text-primary mb-2">Choose a template (टेम्प्लेट निवडा)</h3>
-                  <p className="text-muted small marathi-text mb-0">Click on &quot;Use Template&quot; (टेम्प्लेट वापरा).</p>
+                  <h3 className="h6 fw-bold text-primary mb-2">Choose a template</h3>
+                  <p className="text-muted small mb-0">Click on “Use / Customize”.</p>
                 </div>
               </div>
             </div>
@@ -151,8 +153,8 @@ const HomePage = () => {
               <div className="card h-100 border shadow-sm rounded-3 overflow-hidden" style={{ borderColor: 'var(--maza-border)' }}>
                 <div className="card-body text-center p-4 p-md-4">
                   <span className="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center fw-bold mb-3" style={{ width: 48, height: 48, fontSize: '1.25rem' }}>2</span>
-                  <h3 className="h6 fw-bold text-primary mb-2">Fill required details (आवश्यक माहिती भरा)</h3>
-                  <p className="text-muted small marathi-text mb-0">Enter your information in the simple form.</p>
+                  <h3 className="h6 fw-bold text-primary mb-2">Fill required details</h3>
+                  <p className="text-muted small mb-0">Enter your information in the form.</p>
                 </div>
               </div>
             </div>
@@ -160,8 +162,8 @@ const HomePage = () => {
               <div className="card h-100 border shadow-sm rounded-3 overflow-hidden" style={{ borderColor: 'var(--maza-border)' }}>
                 <div className="card-body text-center p-4 p-md-4">
                   <span className="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center fw-bold mb-3" style={{ width: 48, height: 48, fontSize: '1.25rem' }}>3</span>
-                  <h3 className="h6 fw-bold text-primary mb-2">Preview &amp; Download (पूर्वावलोकन पाहा • PDF डाउनलोड करा)</h3>
-                  <p className="text-muted small marathi-text mb-0">Preview your biodata and download PDF instantly.</p>
+                  <h3 className="h6 fw-bold text-primary mb-2">Preview &amp; Download</h3>
+                  <p className="text-muted small mb-0">Preview your biodata and download the PDF instantly.</p>
                 </div>
               </div>
             </div>
@@ -176,8 +178,8 @@ const HomePage = () => {
         <div className="container px-3 px-md-4">
           <div className="card border shadow-sm rounded-3 overflow-hidden" style={{ borderColor: 'var(--maza-border)' }}>
             <div className="card-body p-3 p-md-4 text-center border-bottom" style={{ borderColor: 'var(--maza-border)' }}>
-              <h2 className="h4 fw-bold text-primary mb-2">Biodata Templates</h2>
-              <p className="text-muted marathi-text mb-0">आपल्या आवडीचा टेम्प्लेट निवडा आणि वापरा बटनावर क्लिक करा.</p>
+              <h2 className="h4 fw-bold text-primary mb-2">{home?.sections?.templates}</h2>
+              <p className="text-muted mb-0">Choose your preferred template and click Use to start.</p>
             </div>
             <TemplateSlider templates={filteredTemplates} onCustomizeClick={handleCustomizeClick} onPreviewClick={handlePreviewClick} />
           </div>
@@ -196,7 +198,7 @@ const HomePage = () => {
                 <img src={previewTemplate.imageUrl} alt={previewTemplate.altName || `Template ${previewTemplate.id}`} className="img-fluid rounded-3 shadow-sm" />
                 <div className="d-flex flex-wrap gap-2 justify-content-center mt-4 flex-shrink-0">
                   <button type="button" className="btn btn-outline-secondary rounded-pill px-3" onClick={handleClosePreview}>Close</button>
-                  <button type="button" className="btn btn-primary rounded-pill px-3" onClick={() => handleCustomizeClick(previewTemplate)}>वापरा / Customize</button>
+                  <button type="button" className="btn btn-primary rounded-pill px-3" onClick={() => handleCustomizeClick(previewTemplate)}>Use / Customize</button>
                 </div>
               </div>
             </div>
@@ -209,18 +211,18 @@ const HomePage = () => {
         <div className="container px-3 px-md-4">
           <div className="card border shadow-sm rounded-3 overflow-hidden" style={{ borderColor: 'var(--maza-border)' }}>
             <div className="card-body p-3 p-md-4">
-              <h2 id="why-biodata-heading" className="h4 fw-bold text-primary mb-3">Why Marriage Biodata is Important?</h2>
+              <h2 id="why-biodata-heading" className="h4 fw-bold text-primary mb-3">{home?.sections?.whyBiodata}</h2>
                   <p className="text-justify mb-3 small">
                     Marriage Biodata plays a critical role in arranged marriages. It helps families understand background, education, profession, and values clearly and systematically.
                   </p>
                   <p className="mb-2 small fw-semibold">A complete marriage biodata should include:</p>
                   <ul className="small mb-3">
-                    <li>Personal details (नाव, जन्मतारीख, उंची)</li>
-                    <li>Education information (शिक्षण माहिती)</li>
-                    <li>Profession details (व्यवसाय माहिती)</li>
-                    <li>Family background (कुटुंब माहिती)</li>
-                    <li>Horoscope details (कुंडली माहिती)</li>
-                    <li>Contact information (संपर्क तपशील)</li>
+                    <li>Personal details (name, date of birth, height)</li>
+                    <li>Education information</li>
+                    <li>Profession details</li>
+                    <li>Family background</li>
+                    <li>Horoscope details</li>
+                    <li>Contact information</li>
                   </ul>
                   <p className="text-justify mb-0 small">
                     A professionally structured biodata creates a strong first impression and builds trust between families.
@@ -235,18 +237,18 @@ const HomePage = () => {
         <div className="container px-3 px-md-4">
           <div className="card border shadow-sm rounded-3 overflow-hidden" style={{ borderColor: 'var(--maza-border)' }}>
             <div className="card-body p-3 p-md-4">
-              <h2 id="kundali-heading" className="h4 fw-bold text-primary mb-3">Online Kundali Matching (36 Gun Milan)</h2>
+              <h2 id="kundali-heading" className="h4 fw-bold text-primary mb-3">{home?.sections?.kundali}</h2>
                   <p className="text-justify mb-3 small">
                     We provide a simple and fast online Kundali Matching tool. You need to enter:
                   </p>
                   <ul className="small mb-3">
-                    <li>Name (नाव)</li>
-                    <li>Date of Birth (जन्मतारीख)</li>
-                    <li>Time of Birth (जन्मवेळ)</li>
-                    <li>Place of Birth (जन्मस्थान)</li>
+                    <li>Name</li>
+                    <li>Date of Birth</li>
+                    <li>Time of Birth</li>
+                    <li>Place of Birth</li>
                   </ul>
                   <p className="text-justify mb-4 small">
-                    The system calculates compatibility score instantly based on traditional 36 Gun Milan system (३६ गुण जुळवणी पद्धत). Kundali matching is considered an important factor in many Hindu marriages for compatibility evaluation.
+                    The system calculates the compatibility score instantly based on the traditional 36 Gun Milan system. Kundali matching is considered an important factor in many Hindu marriages for compatibility evaluation.
                   </p>
               <div className="text-center mt-2">
                 <button type="button" className="btn btn-primary rounded-pill px-4 py-2 shadow-sm" onClick={kundaliMatch}>
@@ -261,15 +263,15 @@ const HomePage = () => {
       {/* Biodata Formats Available */}
       <section className="py-3 py-md-4 bg-white" aria-labelledby="formats-heading">
         <div className="container px-3 px-md-4">
-          <h2 id="formats-heading" className="h4 fw-bold text-primary text-center mb-2">Biodata Formats Available</h2>
-          <p className="text-center text-muted small mb-3">We offer multiple biodata styles. All formats are designed keeping Marathi cultural expectations in mind.</p>
+          <h2 id="formats-heading" className="h4 fw-bold text-primary text-center mb-2">{home?.sections?.formats}</h2>
+          <p className="text-center text-muted small mb-3">We offer multiple biodata styles designed for marriage purposes.</p>
           <ul className="list-unstyled row g-3 justify-content-center small text-center mb-0">
-            <li className="col-12 col-sm-6 col-md-4"><span className="d-inline-block px-3 py-2 bg-light rounded-3 shadow-sm" style={{ border: '1px solid var(--maza-border)' }}>Bride biodata format (वधू बायोडाटा फॉरमॅट)</span></li>
-            <li className="col-12 col-sm-6 col-md-4"><span className="d-inline-block px-3 py-2 bg-light rounded-3 shadow-sm" style={{ border: '1px solid var(--maza-border)' }}>Groom biodata format (वर बायोडाटा फॉरमॅट)</span></li>
-            <li className="col-12 col-sm-6 col-md-4"><span className="d-inline-block px-3 py-2 bg-light rounded-3 shadow-sm" style={{ border: '1px solid var(--maza-border)' }}>Simple biodata format (साधा बायोडाटा)</span></li>
-            <li className="col-12 col-sm-6 col-md-4"><span className="d-inline-block px-3 py-2 bg-light rounded-3 shadow-sm" style={{ border: '1px solid var(--maza-border)' }}>Modern biodata layout (आधुनिक डिझाईन)</span></li>
-            <li className="col-12 col-sm-6 col-md-4"><span className="d-inline-block px-3 py-2 bg-light rounded-3 shadow-sm" style={{ border: '1px solid var(--maza-border)' }}>Traditional lagna biodata (पारंपरिक लग्न बायोडाटा)</span></li>
-            <li className="col-12 col-sm-6 col-md-4"><span className="d-inline-block px-3 py-2 bg-light rounded-3 shadow-sm" style={{ border: '1px solid var(--maza-border)' }}>Biodata with horoscope section (कुंडलीसह बायोडाटा)</span></li>
+            <li className="col-12 col-sm-6 col-md-4"><span className="d-inline-block px-3 py-2 bg-light rounded-3 shadow-sm" style={{ border: '1px solid var(--maza-border)' }}>Bride biodata format</span></li>
+            <li className="col-12 col-sm-6 col-md-4"><span className="d-inline-block px-3 py-2 bg-light rounded-3 shadow-sm" style={{ border: '1px solid var(--maza-border)' }}>Groom biodata format</span></li>
+            <li className="col-12 col-sm-6 col-md-4"><span className="d-inline-block px-3 py-2 bg-light rounded-3 shadow-sm" style={{ border: '1px solid var(--maza-border)' }}>Simple biodata format</span></li>
+            <li className="col-12 col-sm-6 col-md-4"><span className="d-inline-block px-3 py-2 bg-light rounded-3 shadow-sm" style={{ border: '1px solid var(--maza-border)' }}>Modern biodata layout</span></li>
+            <li className="col-12 col-sm-6 col-md-4"><span className="d-inline-block px-3 py-2 bg-light rounded-3 shadow-sm" style={{ border: '1px solid var(--maza-border)' }}>Traditional wedding biodata</span></li>
+            <li className="col-12 col-sm-6 col-md-4"><span className="d-inline-block px-3 py-2 bg-light rounded-3 shadow-sm" style={{ border: '1px solid var(--maza-border)' }}>Biodata with horoscope section</span></li>
           </ul>
         </div>
       </section>
@@ -278,14 +280,14 @@ const HomePage = () => {
       <section className="py-3 py-md-4 bg-light" aria-labelledby="why-choose-heading">
         <div className="container px-3 px-md-4">
           <div className="card border shadow-sm rounded-3 overflow-hidden p-3 p-md-4" style={{ borderColor: 'var(--maza-border)' }}>
-            <h2 id="why-choose-heading" className="h4 fw-bold text-primary text-center mb-2">Why Choose This Platform?</h2>
-            <p className="text-center text-muted small mb-3">Compared to other biodata websites. The focus is on speed, simplicity, and professional Marathi presentation.</p>
+            <h2 id="why-choose-heading" className="h4 fw-bold text-primary text-center mb-2">{home?.sections?.whyChoose}</h2>
+            <p className="text-center text-muted small mb-3">Compared to other biodata websites, the focus is on speed, simplicity, and a professional presentation.</p>
             <ul className="list-unstyled small mb-0 row g-2">
-              <li className="col-12 col-md-6 col-lg-4 d-flex align-items-start gap-2"><span className="text-success fw-bold">✔</span> Faster generation process (जलद प्रक्रिया)</li>
-              <li className="col-12 col-md-6 col-lg-4 d-flex align-items-start gap-2"><span className="text-success fw-bold">✔</span> Accurate Marathi formatting (अचूक मराठी मांडणी)</li>
-              <li className="col-12 col-md-6 col-lg-4 d-flex align-items-start gap-2"><span className="text-success fw-bold">✔</span> Clean and simple user interface (सोपे वापरकर्ता इंटरफेस)</li>
-              <li className="col-12 col-md-6 col-lg-4 d-flex align-items-start gap-2"><span className="text-success fw-bold">✔</span> Affordable pricing model (परवडणारी योजना)</li>
-              <li className="col-12 col-md-6 col-lg-4 d-flex align-items-start gap-2"><span className="text-success fw-bold">✔</span> No unnecessary steps (अनावश्यक टप्पे नाहीत)</li>
+              <li className="col-12 col-md-6 col-lg-4 d-flex align-items-start gap-2"><span className="text-success fw-bold">✔</span> Faster generation process</li>
+              <li className="col-12 col-md-6 col-lg-4 d-flex align-items-start gap-2"><span className="text-success fw-bold">✔</span> Clean formatting</li>
+              <li className="col-12 col-md-6 col-lg-4 d-flex align-items-start gap-2"><span className="text-success fw-bold">✔</span> Clean and simple user interface</li>
+              <li className="col-12 col-md-6 col-lg-4 d-flex align-items-start gap-2"><span className="text-success fw-bold">✔</span> Affordable pricing</li>
+              <li className="col-12 col-md-6 col-lg-4 d-flex align-items-start gap-2"><span className="text-success fw-bold">✔</span> No unnecessary steps</li>
             </ul>
           </div>
         </div>
@@ -294,7 +296,7 @@ const HomePage = () => {
       {/* Frequently Asked Questions (FAQ) */}
       <section className="py-3 py-md-4 bg-white" aria-labelledby="faq-heading">
         <div className="container px-3 px-md-4">
-          <h2 id="faq-heading" className="h4 fw-bold text-primary text-center mb-3">Frequently Asked Questions (FAQ)</h2>
+          <h2 id="faq-heading" className="h4 fw-bold text-primary text-center mb-3">{home?.sections?.faq}</h2>
           <div className="accordion" id="faqAccordion">
                 {FAQ_ITEMS.map((faq, i) => {
                   const isOpen = openFaqIndex === i;
@@ -326,8 +328,8 @@ const HomePage = () => {
         <div className="container px-3 px-md-4">
           <div className="row align-items-center justify-content-between g-2">
             <div className="col-12 col-md-6 col-lg-5">
-              <h2 id="cta-heading" className="h5 fw-bold text-primary mb-0">Create Biodata Now &amp; Match Kundali Now</h2>
-              <p className="text-muted small mb-0 mt-1">Get your Marathi marriage biodata in 2 minutes. Instant PDF download and 36 Gun Kundali matching.</p>
+              <h2 id="cta-heading" className="h5 fw-bold text-primary mb-0">{home?.sections?.cta}</h2>
+              <p className="text-muted small mb-0 mt-1">Get your marriage biodata in 2 minutes. Instant PDF download and 36 Gun Kundali matching.</p>
             </div>
             <div className="col-12 col-md-6 col-lg-4">
               <div className="d-flex flex-wrap justify-content-center justify-content-md-end gap-2">

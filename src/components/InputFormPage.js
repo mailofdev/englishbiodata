@@ -6,6 +6,70 @@ import ganeshaImg from "../assets/images/ganesha.png";
 import lakshmiImg from "../assets/images/lakshmi.png";
 import bismillahImg from "../assets/images/bismillah.png";
 import christImg from "../assets/images/christ.png";
+
+const LABELS_EN = {
+  नाव: "Name",
+  "मुलाचे नाव": "Boy's Name",
+  "मुलीचे नाव": "Girl's Name",
+  जन्मतारीख: "Date of Birth",
+  जन्मदिनांक: "Date of Birth",
+  जन्मवेळ: "Time of Birth",
+  जन्मस्थान: "Place of Birth",
+  "जन्म स्थळ": "Place of Birth",
+  "जन्म ठिकाण": "Place of Birth",
+  जन्मनाव: "Birth Name",
+  "नावरस नाव": "Nickname",
+  "रास नाव": "Rashi Name",
+  धर्म: "Religion",
+  जात: "Caste",
+  कुलदैवत: "Family Deity",
+  देवक: "Devak",
+  गोत्र: "Gotra",
+  नक्षत्र: "Nakshatra",
+  रास: "Rashi",
+  गण: "Gana",
+  नाडी: "Nadi",
+  ऊंची: "Height",
+  रंग: "Complexion",
+  वर्ण: "Complexion",
+  रक्तगट: "Blood Group",
+  शिक्षण: "Education",
+  नोकरी: "Profession",
+  व्यवसाय: "Profession",
+  पगार: "Annual Income",
+  "पगार(वार्षिक)": "Annual Income",
+  "वेतन(वार्षिक)": "Annual Income",
+  "उत्पन्न(वार्षिक)": "Annual Income",
+  इतर_माहिती: "Other Information",
+  वडिलांचे_नाव: "Father's Name",
+  वडिलांचा_व्यवसाय: "Father's Occupation",
+  आईचे_नाव: "Mother's Name",
+  बहीण: "Sister(s)",
+  भाऊ: "Brother(s)",
+  मामा: "Maternal Uncle(s)",
+  दाजी: "Brother-in-law(s)",
+  चूलते: "Paternal Uncle(s)",
+  नातेसंबंध: "Relatives",
+  इतर: "Other",
+  पत्ता: "Address",
+  मोबाईल_नं: "Mobile Number",
+};
+
+const SECTION_TITLES_EN = {
+  personal: "Personal Details",
+  astrology: "Astrology",
+  education: "Education & Work",
+  family: "Family Details",
+  contact: "Contact",
+};
+
+function toEnglishLabel(keyOrLabel) {
+  if (!keyOrLabel) return "";
+  const raw = String(keyOrLabel);
+  const key = raw.replace(/ /g, "_");
+  return LABELS_EN[key] || LABELS_EN[raw] || raw.replace(/_/g, " ");
+}
+
 const InputFormPage = () => {
   const navigate = useNavigate();
   const { templateId } = useParams();
@@ -62,7 +126,7 @@ const InputFormPage = () => {
 
   const [imagePreview, setImagePreview] = useState(ganeshaImg);
 const [additionalImage, setAdditionalImage] = useState(location.state?.additionalImage || null);
-  const [centerText, setCenterText] = useState("|| श्री गणेशाय नम: ||");
+  const [centerText, setCenterText] = useState("|| Shri Ganeshaya Namah ||");
   const [missingFields, setMissingFields] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   
@@ -87,7 +151,7 @@ const [additionalImage, setAdditionalImage] = useState(location.state?.additiona
           const monthIndex = monthIndexMap[month];
           if (monthIndex !== undefined) {
             const date = new Date(year, monthIndex, day); // Month is zero-based in JS Date
-            const weekdays = ["रविवार", "सोमवार", "मंगळवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
+            const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
             updatedField.varr = weekdays[date.getDay()];
           } else {
             updatedField.varr = "";
@@ -264,109 +328,109 @@ const handleArrayChange = (e, index, field) => {
 
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const months = [
-    "जानेवारी",
-    "फेब्रुवारी",
-    "मार्च",
-    "एप्रिल",
-    "मे",
-    "जून",
-    "जुलै",
-    "ऑगस्ट",
-    "सप्टेंबर",
-    "ऑक्टोबर",
-    "नोव्हेंबर",
-    "डिसेंबर",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   const monthIndexMap = {
-    "जानेवारी": 0,
-    "फेब्रुवारी": 1,
-    "मार्च": 2,
-    "एप्रिल": 3,
-    "मे": 4,
-    "जून": 5,
-    "जुलै": 6,
-    "ऑगस्ट": 7,
-    "सप्टेंबर": 8,
-    "ऑक्टोबर": 9,
-    "नोव्हेंबर": 10,
-    "डिसेंबर": 11,
+    January: 0,
+    February: 1,
+    March: 2,
+    April: 3,
+    May: 4,
+    June: 5,
+    July: 6,
+    August: 7,
+    September: 8,
+    October: 9,
+    November: 10,
+    December: 11,
   };
-  const varr = ["सोमवार", "मंगळवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार", "रविवार"];
+  const varr = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   const years = Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i);
   const hours = Array.from({ length: 12 }, (_, i) => i + 1);
   const minutes = Array.from({ length: 60 }, (_, i) => i);
-  const periods = ["पहाटे", "सकाळी", "दुपारी", "संध्याकाळी", "रात्री"];
+  const periods = ["AM", "PM"];
 
   const selectOptions = {
-    रंग: ["गोरापान", "गोरा", "गहूवर्णीय", "सावळा", "काळा"],
+    रंग: ["Fair", "Very fair", "Wheatish", "Dusky", "Dark"],
     रक्तगट: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
     ऊंची: [
-      "4 फूट 4 इंच",
-      "4 फूट 5 इंच",
-      "4 फूट 6 इंच",
-      "4 फूट 7 इंच",
-      "4 फूट 8 इंच",
-      "4 फूट 9 इंच",
-      "4 फूट 10 इंच",
-      "4 फूट 11 इंच",
-      "5 फूट 0 इंच",
-      "5 फूट 1 इंच",
-      "5 फूट 2 इंच",
-      "5 फूट 3 इंच",
-      "5 फूट 4 इंच",
-      "5 फूट 5 इंच",
-      "5 फूट 6 इंच",
-      "5 फूट 7 इंच",
-      "5 फूट 8 इंच",
-      "5 फूट 9 इंच",
-      "5 फूट 10 इंच",
-      "5 फूट 11 इंच",
-      "6 फूट 0 इंच",
-      "6 फूट 1 इंच",
-      "6 फूट 2 इंच",
-      "6 फूट 3 इंच",
-      "6 फूट 4 इंच",
-      "6 फूट 5 इंच",
-      "6 फूट 6 इंच",
-      "6 फूट 7 इंच",
-      "6 फूट 8 इंच" 
+      "4'4\"",
+      "4'5\"",
+      "4'6\"",
+      "4'7\"",
+      "4'8\"",
+      "4'9\"",
+      "4'10\"",
+      "4'11\"",
+      "5'0\"",
+      "5'1\"",
+      "5'2\"",
+      "5'3\"",
+      "5'4\"",
+      "5'5\"",
+      "5'6\"",
+      "5'7\"",
+      "5'8\"",
+      "5'9\"",
+      "5'10\"",
+      "5'11\"",
+      "6'0\"",
+      "6'1\"",
+      "6'2\"",
+      "6'3\"",
+      "6'4\"",
+      "6'5\"",
+      "6'6\"",
+      "6'7\"",
+      "6'8\""
   ],
-    नाडी: ["आदि", "मध्य", "अन्त्य"],
-    गण: ["देव", "मनुष्य", "राक्षस"],
-    रास: ["मेष", "वृषभ", "मिथुन", "कर्क", "सिंह", "कन्या", "तुला", "वृश्चिक", "धनु", "मकर", "कुंभ", "मीन"],
-    नक्षत्र: ["अश्विनी", "भरणी", "कृत्तिका", "रोहिणी", "मृगशिरा", "आर्द्रा", "पुनर्वसु", "पुष्य", "आश्रेषा", "मघा", "पूर्वाफाल्गुनी", "उत्तराफाल्गुनी", "हस्त", "चित्रा", "स्वाती", "विशाखा", "अनुराधा", "ज्येष्ठा", "मूला", "पूर्वाषाढा", "उत्तराषाढा", "श्रवण", "धनिष्ठा", "शततारका", "पूर्वाभाद्रपद", "उत्तराभाद्रपद", "रेवती"],
-    गोत्र: ["कश्यप", "भारद्वाज", "अत्रि", "वशिष्ठ", "विश्वामित्र", "जमदग्नि", "गौतम", "शांडिल्य"],
+    नाडी: ["Adi", "Madhya", "Antya"],
+    गण: ["Deva", "Manushya", "Rakshasa"],
+    रास: ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"],
+    नक्षत्र: ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishtha", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"],
+    गोत्र: ["Kashyap", "Bharadwaj", "Atri", "Vashishtha", "Vishwamitra", "Jamadagni", "Gautam", "Shandilya"],
     };
 
   const REQUIRED_FIELD_KEYS = ["नाव", "जन्मतारीख", "जन्मवेळ", "वडिलांचे_नाव", "पत्ता", "मोबाईल_नं"];
 
   const formSections = [
-    { title: "वैयक्तिक माहिती", keys: ["नाव", "जन्मतारीख", "जन्मवेळ", "जन्मस्थान", "जन्मनाव", "धर्म", "जात", "कुलदैवत", "देवक"] },
-    { title: "ज्योतिष", keys: ["गोत्र", "नक्षत्र", "रास", "गण", "नाडी", "ऊंची", "रंग", "रक्तगट"] },
-    { title: "शिक्षण आणि काम", keys: ["शिक्षण", "नोकरी", "पगार", "इतर_माहिती"] },
-    { title: "कौटुंबिक माहिती", keys: ["वडिलांचे_नाव", "वडिलांचा_व्यवसाय", "आईचे_नाव", "बहीण", "भाऊ", "मामा", "दाजी", "चूलते", "नातेसंबंध", "इतर"] },
-    { title: "संपर्क", keys: ["पत्ता", "मोबाईल_नं"] },
+    { id: "personal", title: SECTION_TITLES_EN.personal, keys: ["नाव", "जन्मतारीख", "जन्मवेळ", "जन्मस्थान", "जन्मनाव", "धर्म", "जात", "कुलदैवत", "देवक"] },
+    { id: "astrology", title: SECTION_TITLES_EN.astrology, keys: ["गोत्र", "नक्षत्र", "रास", "गण", "नाडी", "ऊंची", "रंग", "रक्तगट"] },
+    { id: "education", title: SECTION_TITLES_EN.education, keys: ["शिक्षण", "नोकरी", "पगार", "इतर_माहिती"] },
+    { id: "family", title: SECTION_TITLES_EN.family, keys: ["वडिलांचे_नाव", "वडिलांचा_व्यवसाय", "आईचे_नाव", "बहीण", "भाऊ", "मामा", "दाजी", "चूलते", "नातेसंबंध", "इतर"] },
+    { id: "contact", title: SECTION_TITLES_EN.contact, keys: ["पत्ता", "मोबाईल_नं"] },
   ];
 
   return (
     <div className="container py-3 py-md-4">
       <div className="row justify-content-center">
         <div className="col-12 col-xl-10">
-          <h1 className="h2 fw-bold text-center marathi-text mb-2">बायोडाटा माहिती भरा</h1>
-          <p className="text-muted text-center marathi-text mb-4">आपली माहिती भरा आणि बायोडाटा तयार करा.</p>
+          <h1 className="h2 fw-bold text-center mb-2">Fill Biodata Details</h1>
+          <p className="text-muted text-center mb-4">Enter your details to generate your biodata.</p>
           <form onSubmit={handleSubmit}>
             <div className="card border-0 shadow-sm mb-4 rounded-3">
               <div className="card-body p-4 p-md-5">
-                <h2 className="h5 fw-bold text-primary mb-3 pb-2 border-bottom border-2 border-warning">कुलदैवत आणि मध्यवर्ती मजकूर</h2>
+                <h2 className="h5 fw-bold text-primary mb-3 pb-2 border-bottom border-2 border-warning">Header Image & Center Text</h2>
                 <div className="row g-3 align-items-center mb-3">
                   <div className="col-12 col-md-4 text-center">
                     <img src={imagePreview} alt="Preview" className="img-fluid rounded shadow-sm" style={{ maxHeight: '120px', objectFit: 'contain' }} />
                   </div>
                   <div className="col-12 col-md-8">
-                    <button type="button" className="btn btn-outline-primary mb-2 w-100" onClick={() => setIsPopupOpen(true)}>आपल्या कुलदैवताचा फोटो निवडा</button>
+                    <button type="button" className="btn btn-outline-primary mb-2 w-100" onClick={() => setIsPopupOpen(true)}>Choose a header image</button>
                     <div className="mb-0 form-group-spaced deity-accent mt-3">
-                      <label htmlFor="centerText" className="form-label small text-muted">मध्यवर्ती मजकूर (Center Text)</label>
+                      <label htmlFor="centerText" className="form-label small text-muted">Center Text</label>
                       <input type="text" id="centerText" className="form-control" value={centerText} onChange={(e) => setCenterText(e.target.value)} placeholder="Center Text" />
                     </div>
                   </div>
@@ -379,7 +443,7 @@ const handleArrayChange = (e, index, field) => {
                 <div className="modal-dialog modal-dialog-centered">
                   <div className="modal-content shadow">
                     <div className="modal-header border-0">
-                      <h5 id="deityModalTitle" className="modal-title">कुलदैवताचा फोटो निवडा</h5>
+                      <h5 id="deityModalTitle" className="modal-title">Choose a header image</h5>
                       <button type="button" className="btn-close" aria-label="Close" onClick={() => setIsPopupOpen(false)} />
                     </div>
                     <div className="modal-body d-flex flex-wrap gap-3 justify-content-center">
@@ -389,7 +453,7 @@ const handleArrayChange = (e, index, field) => {
                         </button>
                       ))}
                       <label className="btn btn-outline-primary mb-0 w-100">
-                        <input type="file" accept="image/*" onChange={handleImageChange} className="d-none" /> अपलोड करा
+                        <input type="file" accept="image/*" onChange={handleImageChange} className="d-none" /> Upload
                       </label>
                     </div>
                   </div>
@@ -398,10 +462,10 @@ const handleArrayChange = (e, index, field) => {
             )}
 
             {formSections.map((sec) => (
-              <div key={sec.title} className="card border-0 shadow-sm mb-4 rounded-3 overflow-hidden">
+              <div key={sec.id} className="card border-0 shadow-sm mb-4 rounded-3 overflow-hidden">
                 <div className="card-header bg-light border-0 border-start border-4 border-primary py-3 px-4">
                   <h2 className="h5 fw-bold text-primary mb-0">{sec.title}</h2>
-                  {sec.title === "वैयक्तिक माहिती" && <p className="small text-muted mb-0 mt-1">नाव, जन्मतारीख, धर्म इ. माहिती भरा</p>}
+                  {sec.id === "personal" && <p className="small text-muted mb-0 mt-1">Fill name, date of birth, religion, etc.</p>}
                 </div>
                 <div className="card-body p-4 p-md-5">
                   <div className="row g-3">
@@ -413,13 +477,13 @@ const handleArrayChange = (e, index, field) => {
                       const restrictNumbers = fieldData.restrictNumbers;
                       const isRequired = REQUIRED_FIELD_KEYS.includes(field);
                       const isMissing = missingFields.includes(field);
-                      const requiredLabel = isRequired ? <span className="text-danger ms-1" aria-label="आवश्यक">*</span> : null;
+                      const requiredLabel = isRequired ? <span className="text-danger ms-1" aria-label="Required">*</span> : null;
                       const wrapperClass = `form-group-spaced ${isMissing ? 'field-missing' : ''} ${isRequired ? 'field-required' : ''}`;
 
           if (Array.isArray(fieldData)  ) {
             return (
               <div key={field} className={`col-12 ${wrapperClass}`}>
-                <label className="form-label fw-medium text-dark">{field}{isRequired && requiredLabel}</label>
+                <label className="form-label fw-medium text-dark">{toEnglishLabel(field)}{isRequired && requiredLabel}</label>
                 {fieldData.map((item, index) => (
                   <div key={index} className="d-flex flex-wrap align-items-center gap-2 mb-2 p-2 rounded bg-light">
                     <div className="flex-grow-1" style={{ minWidth: '120px' }}>
@@ -432,7 +496,7 @@ const handleArrayChange = (e, index, field) => {
                             field
                           )
                         }
-                        placeholder={field}
+                        placeholder={toEnglishLabel(field)}
                         inputType="text"
                         restrictNumbers={true}
                       />
@@ -444,10 +508,10 @@ const handleArrayChange = (e, index, field) => {
                       className="form-select form-select-sm"
                       style={{ maxWidth: '140px' }}
                     >
-                      <option value="">स्थिती</option>
-                      <option value="विवाहित">विवाहित</option>
-                      <option value="अविवाहित">अविवाहित</option>
-                      <option value="विधुर/विधवा">विधुर/विधवा</option>
+                      <option value="">Status</option>
+                      <option value="Married">Married</option>
+                      <option value="Unmarried">Unmarried</option>
+                      <option value="Widowed">Widowed</option>
                     </select>
                     {fieldData.length > 1 && (
                       <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteField(field, index)} aria-label="Remove">−</button>
@@ -502,18 +566,18 @@ const handleArrayChange = (e, index, field) => {
           if (fieldData.type === "date") {
             return (
               <div key={field} className={`col-12 col-md-6 ${wrapperClass}`}>
-                <label className="form-label fw-medium text-dark">{titleOptions[0]}{isRequired && requiredLabel}</label>
+                <label className="form-label fw-medium text-dark">{toEnglishLabel(fieldData.title ?? titleOptions[0])}{isRequired && requiredLabel}</label>
                 {titleOptions.length > 1 && (
                   <select name={`${field}-title`} value={fieldData.title ?? titleOptions[0]} onChange={handleChange} className="form-select form-select-sm w-auto d-inline-block mb-2 text-muted">
                     {titleOptions.map((title, index) => (
-                      <option key={index} value={title}>{title}</option>
+                      <option key={index} value={title}>{toEnglishLabel(title)}</option>
                     ))}
                   </select>
                 )}
                 <div className="row g-2">
                   <div className="col-6 col-md-3">
                     <select name={`${field}-day`} value={fieldData.day} onChange={handleChange} className="form-select">
-                      <option value="">दिवस</option>
+                      <option value="">Day</option>
                       {days.map((day) => (
                         <option key={day} value={day}>{day}</option>
                       ))}
@@ -521,7 +585,7 @@ const handleArrayChange = (e, index, field) => {
                   </div>
                   <div className="col-6 col-md-3">
                     <select name={`${field}-month`} value={fieldData.month} onChange={handleChange} className="form-select">
-                      <option value="">महिना</option>
+                      <option value="">Month</option>
                       {months.map((month, index) => (
                         <option key={index} value={month}>{month}</option>
                       ))}
@@ -529,7 +593,7 @@ const handleArrayChange = (e, index, field) => {
                   </div>
                   <div className="col-6 col-md-3">
                     <select name={`${field}-year`} value={fieldData.year} onChange={handleChange} className="form-select">
-                      <option value="">वर्ष</option>
+                      <option value="">Year</option>
                       {years.map((year) => (
                         <option key={year} value={year}>{year}</option>
                       ))}
@@ -537,7 +601,7 @@ const handleArrayChange = (e, index, field) => {
                   </div>
                   <div className="col-6 col-md-3">
                     <select name={`${field}-varr`} value={fieldData.varr} onChange={handleChange} disabled className="form-select bg-light">
-                      <option value="">वार</option>
+                      <option value="">Weekday</option>
                       {varr.map((v, index) => (
                         <option key={index} value={v}>{v}</option>
                       ))}
@@ -549,18 +613,18 @@ const handleArrayChange = (e, index, field) => {
           } else if (fieldData.type === "time") {
             return (
               <div key={field} className={`col-12 col-md-6 ${wrapperClass}`}>
-                <label className="form-label fw-medium text-dark">{titleOptions[0]}{isRequired && requiredLabel}</label>
+                <label className="form-label fw-medium text-dark">{toEnglishLabel(fieldData.title ?? titleOptions[0])}{isRequired && requiredLabel}</label>
                 {titleOptions.length > 1 && (
                   <select name={`${field}-title`} value={fieldData.title ?? titleOptions[0]} onChange={handleChange} className="form-select form-select-sm w-auto d-inline-block mb-2 text-muted">
                     {titleOptions.map((title, index) => (
-                      <option key={index} value={title}>{title}</option>
+                      <option key={index} value={title}>{toEnglishLabel(title)}</option>
                     ))}
                   </select>
                 )}
                 <div className="row g-2">
                   <div className="col-4">
                     <select name={`${field}-hour`} value={fieldData.hour} onChange={handleChange} className="form-select">
-                      <option value="">तास</option>
+                      <option value="">Hour</option>
                       {hours.map((hour) => (
                         <option key={hour} value={hour}>{hour}</option>
                       ))}
@@ -568,7 +632,7 @@ const handleArrayChange = (e, index, field) => {
                   </div>
                   <div className="col-4">
                     <select name={`${field}-minute`} value={fieldData.minute} onChange={handleChange} className="form-select">
-                      <option value="">मिनिट</option>
+                      <option value="">Minute</option>
                       {minutes.map((minute) => (
                         <option key={minute} value={minute}>{minute}</option>
                       ))}
@@ -576,7 +640,7 @@ const handleArrayChange = (e, index, field) => {
                   </div>
                   <div className="col-4">
                     <select name={`${field}-period`} value={fieldData.period} onChange={handleChange} className="form-select">
-                      <option value="">प्रहर</option>
+                      <option value="">AM/PM</option>
                       {periods.map((period, index) => (
                         <option key={index} value={period}>{period}</option>
                       ))}
@@ -631,16 +695,16 @@ const handleArrayChange = (e, index, field) => {
           else if (fieldData.type === "select" && selectOptions[field]) {
             return (
               <div key={field} className={`col-12 col-md-6 ${wrapperClass}`}>
-                <label className="form-label fw-medium text-dark">{titleOptions[0]}{isRequired && requiredLabel}</label>
+                <label className="form-label fw-medium text-dark">{toEnglishLabel(fieldData.title ?? titleOptions[0])}{isRequired && requiredLabel}</label>
                 {titleOptions.length > 1 && (
                   <select name={`${field}-title`} value={fieldData.title ?? titleOptions[0]} onChange={handleChange} className="form-select form-select-sm w-auto d-inline-block mb-2 text-muted">
                     {titleOptions.map((title, index) => (
-                      <option key={index} value={title}>{title}</option>
+                      <option key={index} value={title}>{toEnglishLabel(title)}</option>
                     ))}
                   </select>
                 )}
                 <select name={field} value={fieldData.value} onChange={handleChange} className="form-select">
-                  <option value="">{field} निवडा</option>
+                  <option value="">{`Select ${toEnglishLabel(field)}`}</option>
                   {selectOptions[field].map((option, index) => (
                     <option key={index} value={option}>{option}</option>
                   ))}
@@ -652,18 +716,18 @@ const handleArrayChange = (e, index, field) => {
             const isDeityField = false;
             return (
               <div key={field} className={`col-12 col-md-6 ${wrapperClass} ${isDeityField ? "deity-accent rounded p-3" : ""}`}>
-                <label className="form-label fw-medium text-dark">{titleOptions[0]}{isRequired && requiredLabel}</label>
+                <label className="form-label fw-medium text-dark">{toEnglishLabel(fieldData.title ?? titleOptions[0])}{isRequired && requiredLabel}</label>
                 {titleOptions.length > 1 && (
                   <select name={`${field}-title`} value={fieldData.title ?? titleOptions[0]} onChange={handleChange} className="form-select form-select-sm w-auto d-inline-block mb-2 text-muted">
                     {titleOptions.map((title, index) => (
-                      <option key={index} value={title}>{title}</option>
+                      <option key={index} value={title}>{toEnglishLabel(title)}</option>
                     ))}
                   </select>
                 )}
                 <TransliterationInput
                   value={fieldData.value}
                   onChange={(value) => handleTransliterationChange(field, value)}
-                  placeholder={titleOptions[0]}
+                  placeholder={toEnglishLabel(fieldData.title ?? titleOptions[0])}
                   inputType={type}
                   restrictNumbers={restrictNumbers}
                 />
@@ -678,8 +742,8 @@ const handleArrayChange = (e, index, field) => {
 
             <div className="card border-0 shadow-sm mb-4 rounded-3 overflow-hidden">
               <div className="card-header bg-light border-0 border-start border-4 border-primary py-3 px-4">
-                <h2 className="h5 fw-bold text-primary mb-0">तुमचा फोटो जोडा</h2>
-                <p className="small text-muted mb-0 mt-1">आपला फोटो अपलोड करून गोल आकारात क्रॉप करा. सर्व डिव्हाइसवर चांगला दिसेल.</p>
+                <h2 className="h5 fw-bold text-primary mb-0">Add Your Photo</h2>
+                <p className="small text-muted mb-0 mt-1">Upload your photo and crop it into a circle for best results.</p>
               </div>
               <div className="card-body p-4 p-md-5">
                 <ImageCropComponent handleCroppedImageChange={handleAdditionalImageChange} />
@@ -688,7 +752,7 @@ const handleArrayChange = (e, index, field) => {
 
             <div className="card border-0 shadow-sm mb-4 rounded-3">
               <div className="card-body p-4 p-md-5 text-center">
-                <button type="submit" className="btn btn-primary btn-lg px-5">बायोडाटा पहा</button>
+                <button type="submit" className="btn btn-primary btn-lg px-5">Preview Biodata</button>
               </div>
             </div>
           </form>
@@ -696,8 +760,8 @@ const handleArrayChange = (e, index, field) => {
           {missingFields.length > 0 && (
             <div className="alert alert-warning d-flex flex-wrap align-items-center justify-content-between gap-2 shadow-sm" role="alert">
               <div>
-                <strong className="d-block mb-1">कृपया खालील फील्ड भरा:</strong>
-                <span className="small">{missingFields.join(', ')}</span>
+                <strong className="d-block mb-1">Please fill the following fields:</strong>
+                <span className="small">{missingFields.map((k) => toEnglishLabel(k)).join(', ')}</span>
               </div>
               <button type="button" className="btn btn-sm btn-outline-dark" onClick={() => setMissingFields([])}>Close</button>
             </div>

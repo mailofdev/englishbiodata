@@ -8,16 +8,16 @@ import flowerIcon from '../../assets/Shape 44 1.svg';
 
 const feedbacks = [
   {
-    text: 'माझा बायोडाटा माध्यमामुळे माझा खूप वेळ वाचला. कमी किमतीमध्ये मला बायोडाटा बनवता आला. माझा बायोडाटा वरती अतिशय आकर्षक टेम्प्लेट उपलब्ध आहेत.',
-    name: 'श्रीनिवास कदम',
+    text: 'This biodata maker saved me a lot of time. I was able to create a biodata at an affordable price, and the templates are very attractive.',
+    name: 'Shrinivas Kadam',
   },
   {
-    text: 'मला हवा तसा बायोडाटा खूप कमी वेळात बनवता आला. मला माझ्या आवडीचा टेम्प्लेट निवडता आला आणि वेळेची बचत झाली. मला हवा तसा जोडीदारही मिळाला- ',
-    name: 'विशाखा पाटील',
+    text: 'I created the exact biodata I wanted in very little time. I could choose my favorite template and save time. It was really helpful.',
+    name: 'Vishakha Patil',
   },
   {
-    text: 'अतिशय जलद, सोपी, आणि किफायतशीर सेवा! या माध्यमामुळे मला माझा बायोडाटा प्रभावीपणे सादर करता आला. टेम्प्लेट्स खूप चांगल्या दर्जाच्या आहेत.',
-    name: 'रोहित शिंदे',
+    text: 'Very fast, simple, and cost-effective service! It helped me present my biodata professionally. The templates are high quality.',
+    name: 'Rohit Shinde',
   }
 ];
 
@@ -27,8 +27,8 @@ const FeedbackSlider = () => {
       <div className="">
         <div className="">
           <div className="card-body p-4 text-center">
-            <h2 className="h4 fw-bold text-primary mb-2">ग्राहकांचे अभिप्राय</h2>
-            <p className="text-muted mb-0 marathi-text small">आमच्या वापरकर्त्यांचे अनुभव.</p>
+            <h2 className="h4 fw-bold text-primary mb-2">Customer Feedback</h2>
+            <p className="text-muted mb-0 small">What our users say.</p>
           </div>
         </div>
         <Swiper

@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { matchKundliAstrologyApi, normalizeAstrologyKundliResponse } from '../../services/gunMilanService';
 import { searchCities, geocodePlace, isGeocodeConfigured } from '../../services/geocodeService';
+import { content } from '../../content/staticContent';
 
-const MONTHS = ['जानेवारी', 'फेब्रुवारी', 'मार्च', 'एप्रिल', 'मे', 'जून', 'जुलै', 'ऑगस्ट', 'सप्टेंबर', 'ऑक्टोबर', 'नोव्हेंबर', 'डिसेंबर'];
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const MONTH_TO_NUM = Object.fromEntries(MONTHS.map((m, i) => [m, String(i + 1).padStart(2, '0')]));
-const PERIODS = ['पहाटे', 'सकाळी', 'दुपारी', 'संध्याकाळी', 'रात्री'];
-const PERIOD_TO_24H = { पहाटे: 'AM', सकाळी: 'AM', दुपारी: 'PM', संध्याकाळी: 'PM', रात्री: 'PM' };
+const PERIODS = ['AM', 'PM'];
+const PERIOD_TO_24H = { AM: 'AM', PM: 'PM' };
 
 const defaultBoy = { name: '', day: '', month: '', year: '', hour: '', minute: '', period: '', city: '', latitude: 28.6139, longitude: 77.209 };
 const defaultGirl = { name: '', day: '', month: '', year: '', hour: '', minute: '', period: '', city: '', latitude: 19.076, longitude: 72.8777 };
@@ -14,7 +15,7 @@ const defaultGirl = { name: '', day: '', month: '', year: '', hour: '', minute: 
 const DEBOUNCE_MS = 1500;
 
 /** Searchable city dropdown using Google Geocoding (Cloud Function); on select returns display_name, lat, lon. */
-function CitySelect({ value, onSelect, placeholder = 'शहर शोधा / Select city', id, showGeocodeHint = true }) {
+function CitySelect({ value, onSelect, placeholder = 'Search city / Select city', id, showGeocodeHint = true }) {
   const [inputText, setInputText] = useState(value || '');
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -109,7 +110,7 @@ function CitySelect({ value, onSelect, placeholder = 'शहर शोधा / S
 
   return (
     <div className="position-relative">
-      <label className="form-label small mb-1">जन्मस्थान (शहर) / Birth place (City)</label>
+      <label className="form-label small mb-1">Birth place (City)</label>
       <input
         ref={inputRef}
         id={id}
@@ -167,6 +168,7 @@ const KundaliMatchPage = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const page = content.pages?.kundaliMatch;
 
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const years = Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i);
@@ -241,7 +243,7 @@ const KundaliMatchPage = () => {
     || payload?.kuta_scores
     || normalized?.guna_milan
     || {};
-  const GUNA_LABELS = { varna: 'वर्ण', vashya: 'वश्य', tara: 'तारा', yoni: 'योनी', graha_maitri: 'ग्रह मैत्री', 'graha maitri': 'ग्रह मैत्री', gana: 'गण', bhakoot: 'भाकूट', nadi: 'नाडी' };
+  const GUNA_LABELS = { varna: 'Varna', vashya: 'Vashya', tara: 'Tara', yoni: 'Yoni', graha_maitri: 'Graha Maitri', 'graha maitri': 'Graha Maitri', gana: 'Gana', bhakoot: 'Bhakoot', nadi: 'Nadi' };
   const percentage = payload?.percentage != null ? payload.percentage : (payload?.max_score && payload?.total_score != null ? Math.round((Number(payload.total_score) / Number(payload.max_score)) * 100) : null);
   const doshasIsArray = Array.isArray(payload?.doshas);
   const manglikAnalysis = payload?.manglik_analysis;
@@ -253,9 +255,9 @@ const KundaliMatchPage = () => {
   return (
     <div className="pb-2 kundali-match-page">
       <div className="text-center mb-5">
-        <h1 className="h2 fw-bold marathi-text mb-2" style={{ color: '#5C2D6E' }}>कुंडली मिलन / गण मिलन</h1>
+        <h1 className="h2 fw-bold marathi-text mb-2" style={{ color: '#5C2D6E' }}>{page?.headerTitle}</h1>
         <p className="text-muted marathi-text mb-0" style={{ maxWidth: '420px', margin: '0 auto' }}>
-          मुलगा आणि मुलगी यांची जन्मतारीख आणि जन्मवेळ टाकून जोडीची योग्यता तपासा.
+          {page?.headerSubtitle}
         </p>
       </div>
 
@@ -265,41 +267,41 @@ const KundaliMatchPage = () => {
           <div className="col-12 col-lg-5">
             <div className="card border-0 shadow h-100 rounded-3" style={{ borderLeft: '4px solid #5C2D6E', overflow: 'visible' }}>
               <div className="card-header py-3 px-4 text-white" style={{ backgroundColor: '#5C2D6E' }}>
-                <h2 className="h5 fw-bold mb-0">मुलगा (Boy)</h2>
+                <h2 className="h5 fw-bold mb-0">{page?.boyTitle}</h2>
               </div>
               <div className="card-body p-4" style={{ overflow: 'visible' }}>
                 <div className="mb-3">
-                  <label className="form-label small mb-1">नाव (ऐच्छिक) / Name (optional)</label>
+                  <label className="form-label small mb-1">Name (optional)</label>
                   <input type="text" className="form-control" value={boy.name} onChange={(e) => updatePerson('boy', 'name', e.target.value)} 
                   placeholder="e.g. Arjun patil" />
                 </div>
-                <p className="small text-uppercase text-muted fw-semibold mb-2">जन्मतारीख</p>
+                <p className="small text-uppercase text-muted fw-semibold mb-2">Birth date</p>
                 <div className="row g-2 mb-4">
                   <div className="col-4">
-                    <label className="form-label small mb-1">दिवस</label>
+                    <label className="form-label small mb-1">Day</label>
                     <select className="form-select" value={boy.day} onChange={(e) => updatePerson('boy', 'day', e.target.value)}><option value="">-</option>{days.map((d) => <option key={d} value={d}>{d}</option>)}</select>
                   </div>
                   <div className="col-4">
-                    <label className="form-label small mb-1">महिना</label>
+                    <label className="form-label small mb-1">Month</label>
                     <select className="form-select" value={boy.month} onChange={(e) => updatePerson('boy', 'month', e.target.value)}><option value="">-</option>{MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}</select>
                   </div>
                   <div className="col-4">
-                    <label className="form-label small mb-1">वर्ष</label>
+                    <label className="form-label small mb-1">Year</label>
                     <select className="form-select" value={boy.year} onChange={(e) => updatePerson('boy', 'year', e.target.value)}><option value="">-</option>{years.map((y) => <option key={y} value={y}>{y}</option>)}</select>
                   </div>
                 </div>
-                <p className="small text-uppercase text-muted fw-semibold mb-2">जन्मवेळ</p>
+                <p className="small text-uppercase text-muted fw-semibold mb-2">Birth time</p>
                 <div className="row g-2">
                   <div className="col-4">
-                    <label className="form-label small mb-1">तास</label>
+                    <label className="form-label small mb-1">Hour</label>
                     <select className="form-select" value={boy.hour} onChange={(e) => updatePerson('boy', 'hour', e.target.value)}><option value="">-</option>{hours.map((h) => <option key={h} value={h}>{h}</option>)}</select>
                   </div>
                   <div className="col-4">
-                    <label className="form-label small mb-1">मिनिट</label>
+                    <label className="form-label small mb-1">Minute</label>
                     <select className="form-select" value={boy.minute} onChange={(e) => updatePerson('boy', 'minute', e.target.value)}><option value="">-</option>{minutes.map((m) => <option key={m} value={m}>{m}</option>)}</select>
                   </div>
                   <div className="col-4">
-                    <label className="form-label small mb-1">प्रहर</label>
+                    <label className="form-label small mb-1">AM/PM</label>
                     <select className="form-select" value={boy.period} onChange={(e) => updatePerson('boy', 'period', e.target.value)}><option value="">-</option>{PERIODS.map((p) => <option key={p} value={p}>{p}</option>)}</select>
                   </div>
                 </div>
@@ -307,7 +309,7 @@ const KundaliMatchPage = () => {
                   <CitySelect
                     id="boy-city"
                     value={boy.city}
-                    placeholder="शहर शोधा (उदा. मुंबई, पुणे)"
+                    placeholder="Search city (e.g. Mumbai, Pune)"
                     onSelect={onBoyCitySelect}
                   />
                 </div>
@@ -318,41 +320,41 @@ const KundaliMatchPage = () => {
           <div className="col-12 col-lg-5">
             <div className="card border-0 shadow h-100 rounded-3" style={{ borderLeft: '4px solid #2d6e4a', overflow: 'visible' }}>
               <div className="card-header py-3 px-4 text-white" style={{ backgroundColor: '#2d6e4a' }}>
-                <h2 className="h5 fw-bold mb-0">मुलगी (Girl)</h2>
+                <h2 className="h5 fw-bold mb-0">{page?.girlTitle}</h2>
               </div>
               <div className="card-body p-4" style={{ overflow: 'visible' }}>
                 <div className="mb-3">
-                  <label className="form-label small mb-1">नाव (ऐच्छिक) / Name (optional)</label>
+                  <label className="form-label small mb-1">Name (optional)</label>
                   <input type="text" className="form-control" value={girl.name} onChange={(e) => updatePerson('girl', 'name', e.target.value)} 
                   placeholder="e.g. Priyanka kadam" />
                 </div>
-                <p className="small text-uppercase text-muted fw-semibold mb-2">जन्मतारीख</p>
+                <p className="small text-uppercase text-muted fw-semibold mb-2">Birth date</p>
                 <div className="row g-2 mb-4">
                   <div className="col-4">
-                    <label className="form-label small mb-1">दिवस</label>
+                    <label className="form-label small mb-1">Day</label>
                     <select className="form-select" value={girl.day} onChange={(e) => updatePerson('girl', 'day', e.target.value)}><option value="">-</option>{days.map((d) => <option key={d} value={d}>{d}</option>)}</select>
                   </div>
                   <div className="col-4">
-                    <label className="form-label small mb-1">महिना</label>
+                    <label className="form-label small mb-1">Month</label>
                     <select className="form-select" value={girl.month} onChange={(e) => updatePerson('girl', 'month', e.target.value)}><option value="">-</option>{MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}</select>
                   </div>
                   <div className="col-4">
-                    <label className="form-label small mb-1">वर्ष</label>
+                    <label className="form-label small mb-1">Year</label>
                     <select className="form-select" value={girl.year} onChange={(e) => updatePerson('girl', 'year', e.target.value)}><option value="">-</option>{years.map((y) => <option key={y} value={y}>{y}</option>)}</select>
                   </div>
                 </div>
-                <p className="small text-uppercase text-muted fw-semibold mb-2">जन्मवेळ</p>
+                <p className="small text-uppercase text-muted fw-semibold mb-2">Birth time</p>
                 <div className="row g-2">
                   <div className="col-4">
-                    <label className="form-label small mb-1">तास</label>
+                    <label className="form-label small mb-1">Hour</label>
                     <select className="form-select" value={girl.hour} onChange={(e) => updatePerson('girl', 'hour', e.target.value)}><option value="">-</option>{hours.map((h) => <option key={h} value={h}>{h}</option>)}</select>
                   </div>
                   <div className="col-4">
-                    <label className="form-label small mb-1">मिनिट</label>
+                    <label className="form-label small mb-1">Minute</label>
                     <select className="form-select" value={girl.minute} onChange={(e) => updatePerson('girl', 'minute', e.target.value)}><option value="">-</option>{minutes.map((m) => <option key={m} value={m}>{m}</option>)}</select>
                   </div>
                   <div className="col-4">
-                    <label className="form-label small mb-1">प्रहर</label>
+                    <label className="form-label small mb-1">AM/PM</label>
                     <select className="form-select" value={girl.period} onChange={(e) => updatePerson('girl', 'period', e.target.value)}><option value="">-</option>{PERIODS.map((p) => <option key={p} value={p}>{p}</option>)}</select>
                   </div>
                 </div>
@@ -360,7 +362,7 @@ const KundaliMatchPage = () => {
                   <CitySelect
                     id="girl-city"
                     value={girl.city}
-                    placeholder="शहर शोधा (उदा. मुंबई, पुणे)"
+                    placeholder="Search city (e.g. Mumbai, Pune)"
                     onSelect={onGirlCitySelect}
                     showGeocodeHint={false}
                   />
@@ -370,7 +372,7 @@ const KundaliMatchPage = () => {
           </div>
         </div>
 
-        <div className="text-center mt-5">
+      <div className="text-center mt-5">
           <div className="form-check form-check-inline justify-content-center mb-3">
             <input
               className="form-check-input"
@@ -380,18 +382,18 @@ const KundaliMatchPage = () => {
               onChange={(e) => setIncludeManglik(e.target.checked)}
             />
             <label className="form-check-label" htmlFor="include-manglik">
-              मंगळ दोष समाविष्ट करा / Include Manglik
+              {page?.includeManglik}
             </label>
           </div>
           <button type="submit" className="btn btn-lg px-5 py-3 rounded-pill shadow-sm" style={{ backgroundColor: '#5C2D6E', color: 'white' }} disabled={loading}>
-            {loading ? <>तपासत आहे… <span className="spinner-border spinner-border-sm ms-2" /></> : 'कुंडली मिलन तपासा'}
+            {loading ? <>{page?.loading || 'Loading…'} <span className="spinner-border spinner-border-sm ms-2" /></> : (page?.submit || 'Submit')}
           </button>
         </div>
       </form>
 
       {error && (
         <div className="alert alert-danger mt-4 mx-auto rounded-3 shadow-sm" style={{ maxWidth: '600px' }} role="alert">
-          {typeof error === 'string' ? error : (error?.message || 'काहीतरी चूक झाली.')}
+          {typeof error === 'string' ? error : (error?.message || 'Something went wrong.')}
         </div>
       )}
 
@@ -400,7 +402,7 @@ const KundaliMatchPage = () => {
           {/* Names + Score & verdict */}
           <div className="card border-0 shadow rounded-3 mb-4 overflow-hidden" style={{ borderLeft: '4px solid #f0ad4e' }}>
             <div className="card-header py-3 px-4 text-dark" style={{ backgroundColor: 'rgba(240,173,78,0.2)' }}>
-              <h2 className="h5 fw-bold mb-0">गण मिलन निकाल</h2>
+              <h2 className="h5 fw-bold mb-0">{page?.resultTitle}</h2>
             </div>
             <div className="card-body p-4">
               {(payload.groom_name || payload.bride_name) && (
@@ -414,7 +416,7 @@ const KundaliMatchPage = () => {
                   <span className="text-muted fs-5"> / {normalized?.maxPoints ?? payload?.max_score ?? 36}</span>
                 </div>
                 <div className="col">
-                  {percentage != null && <p className="mb-1 small text-muted">टक्केवारी: <strong className="text-dark">{percentage}%</strong></p>}
+                  {percentage != null && <p className="mb-1 small text-muted">Percentage: <strong className="text-dark">{percentage}%</strong></p>}
                   {(normalized?.verdict || payload.verdict) && <p className="mb-0 fw-semibold" style={{ color: '#2d6e4a' }}>{normalized?.verdict || payload.verdict}</p>}
                   {verdictDetail && <p className="mb-0 mt-1 small text-muted">{verdictDetail}</p>}
                 </div>
@@ -429,7 +431,7 @@ const KundaliMatchPage = () => {
           {(kutasArray?.length > 0 || (gunaMilanForDisplay && Object.keys(gunaMilanForDisplay).length > 0)) && (
             <div className="card border-0 shadow rounded-3 mb-4 overflow-hidden" style={{ borderLeft: '4px solid #5C2D6E' }}>
               <div className="card-header py-3 px-4 text-white" style={{ backgroundColor: '#5C2D6E' }}>
-                <h3 className="h6 fw-bold mb-0">गुण मिलन (अष्टकूट)</h3>
+                <h3 className="h6 fw-bold mb-0">Guna Milan (Ashtakoot)</h3>
               </div>
               <div className="card-body p-4">
                 <div className="row g-3">
@@ -466,23 +468,23 @@ const KundaliMatchPage = () => {
           {manglikAnalysis && (
             <div className="card border-0 shadow rounded-3 mb-4 overflow-hidden" style={{ borderLeft: '4px solid #6c757d' }}>
               <div className="card-header py-3 px-4 text-white bg-secondary">
-                <h3 className="h6 fw-bold mb-0">मंगळ विश्लेषण / Manglik Analysis</h3>
+                <h3 className="h6 fw-bold mb-0">Manglik Analysis</h3>
               </div>
               <div className="card-body p-4">
                 <div className="row g-2">
                   <div className="col-md-4">
                     <div className="p-3 bg-light rounded">
-                      <strong>मुलगा (Groom):</strong> {manglikAnalysis.groom_manglik ? 'मंगळ (Manglik)' : 'मंगळ नाही (Not Manglik)'}
+                      <strong>Groom:</strong> {manglikAnalysis.groom_manglik ? 'Manglik' : 'Not Manglik'}
                     </div>
                   </div>
                   <div className="col-md-4">
                     <div className="p-3 bg-light rounded">
-                      <strong>मुलगी (Bride):</strong> {manglikAnalysis.bride_manglik ? 'मंगळ (Manglik)' : 'मंगळ नाही (Not Manglik)'}
+                      <strong>Bride:</strong> {manglikAnalysis.bride_manglik ? 'Manglik' : 'Not Manglik'}
                     </div>
                   </div>
                   <div className="col-md-4">
                     <div className="p-3 bg-light rounded">
-                      <strong>सुसंगतता:</strong> <span className="text-capitalize">{manglikAnalysis.match_status || '—'}</span>
+                      <strong>Compatibility:</strong> <span className="text-capitalize">{manglikAnalysis.match_status || '—'}</span>
                     </div>
                   </div>
                 </div>
@@ -494,7 +496,7 @@ const KundaliMatchPage = () => {
           {(groomDetails || brideDetails) && (
             <div className="card border-0 shadow rounded-3 mb-4 overflow-hidden" style={{ borderLeft: '4px solid #2d6e4a' }}>
               <div className="card-header py-3 px-4 text-white" style={{ backgroundColor: '#2d6e4a' }}>
-                <h3 className="h6 fw-bold mb-0">जन्म तपशील / Birth Details</h3>
+                <h3 className="h6 fw-bold mb-0">Birth Details</h3>
               </div>
               <div className="card-body p-4">
                 <div className="row g-3">
@@ -503,11 +505,11 @@ const KundaliMatchPage = () => {
                       <div className="p-3 rounded-3 h-100" style={{ backgroundColor: 'rgba(92,45,110,0.06)', borderLeft: '3px solid #5C2D6E' }}>
                         <h4 className="h6 fw-semibold mb-2" style={{ color: '#5C2D6E' }}>{payload.groom_name || 'Groom'}</h4>
                         <ul className="list-unstyled small mb-0">
-                          {groomDetails.nakshatra != null && <li><strong>नक्षत्र:</strong> {groomDetails.nakshatra}</li>}
-                          {groomDetails.nakshatra_lord != null && <li><strong>नक्षत्र अधिपती:</strong> {groomDetails.nakshatra_lord}</li>}
-                          {groomDetails.moon_sign != null && <li><strong>चंद्र राशी:</strong> {groomDetails.moon_sign}</li>}
-                          {groomDetails.gana != null && <li><strong>गण:</strong> {groomDetails.gana}</li>}
-                          {groomDetails.nadi != null && <li><strong>नाडी:</strong> {groomDetails.nadi}</li>}
+                          {groomDetails.nakshatra != null && <li><strong>Nakshatra:</strong> {groomDetails.nakshatra}</li>}
+                          {groomDetails.nakshatra_lord != null && <li><strong>Nakshatra Lord:</strong> {groomDetails.nakshatra_lord}</li>}
+                          {groomDetails.moon_sign != null && <li><strong>Moon Sign:</strong> {groomDetails.moon_sign}</li>}
+                          {groomDetails.gana != null && <li><strong>Gana:</strong> {groomDetails.gana}</li>}
+                          {groomDetails.nadi != null && <li><strong>Nadi:</strong> {groomDetails.nadi}</li>}
                         </ul>
                       </div>
                     </div>
@@ -517,11 +519,11 @@ const KundaliMatchPage = () => {
                       <div className="p-3 rounded-3 h-100" style={{ backgroundColor: 'rgba(45,110,74,0.08)', borderLeft: '3px solid #2d6e4a' }}>
                         <h4 className="h6 fw-semibold mb-2" style={{ color: '#2d6e4a' }}>{payload.bride_name || 'Bride'}</h4>
                         <ul className="list-unstyled small mb-0">
-                          {brideDetails.nakshatra != null && <li><strong>नक्षत्र:</strong> {brideDetails.nakshatra}</li>}
-                          {brideDetails.nakshatra_lord != null && <li><strong>नक्षत्र अधिपती:</strong> {brideDetails.nakshatra_lord}</li>}
-                          {brideDetails.moon_sign != null && <li><strong>चंद्र राशी:</strong> {brideDetails.moon_sign}</li>}
-                          {brideDetails.gana != null && <li><strong>गण:</strong> {brideDetails.gana}</li>}
-                          {brideDetails.nadi != null && <li><strong>नाडी:</strong> {brideDetails.nadi}</li>}
+                          {brideDetails.nakshatra != null && <li><strong>Nakshatra:</strong> {brideDetails.nakshatra}</li>}
+                          {brideDetails.nakshatra_lord != null && <li><strong>Nakshatra Lord:</strong> {brideDetails.nakshatra_lord}</li>}
+                          {brideDetails.moon_sign != null && <li><strong>Moon Sign:</strong> {brideDetails.moon_sign}</li>}
+                          {brideDetails.gana != null && <li><strong>Gana:</strong> {brideDetails.gana}</li>}
+                          {brideDetails.nadi != null && <li><strong>Nadi:</strong> {brideDetails.nadi}</li>}
                         </ul>
                       </div>
                     </div>
@@ -535,7 +537,7 @@ const KundaliMatchPage = () => {
           {(doshasIsArray ? payload.doshas?.length > 0 : payload.doshas && typeof payload.doshas === 'object' && !Array.isArray(payload.doshas) && Object.keys(payload.doshas).length > 0) && (
             <div className="card border-0 shadow rounded-3 mb-4 overflow-hidden" style={{ borderLeft: '4px solid #6c757d' }}>
               <div className="card-header py-3 px-4 text-white bg-secondary">
-                <h3 className="h6 fw-bold mb-0">दोष आणि उपाय / Doshas & Remedies</h3>
+                <h3 className="h6 fw-bold mb-0">Doshas & Remedies</h3>
               </div>
               <div className="card-body p-4">
                 {doshasIsArray ? (
@@ -553,7 +555,7 @@ const KundaliMatchPage = () => {
                         {typeof d === 'object' && d?.description && <p className="small text-muted mb-2">{d.description}</p>}
                         {Array.isArray(d?.remedies) && d.remedies.length > 0 && (
                           <div>
-                            <strong className="small">उपाय / Remedies:</strong>
+                            <strong className="small">Remedies:</strong>
                             <ul className="mb-0 mt-1 small">
                               {d.remedies.map((r, j) => (
                                 <li key={j}>{r}</li>
@@ -568,17 +570,17 @@ const KundaliMatchPage = () => {
                   <>
                     {payload.doshas.manglik && (
                       <div className="mb-4">
-                        <h4 className="h6 fw-semibold mb-2">मंगळ दोष (Manglik)</h4>
+                        <h4 className="h6 fw-semibold mb-2">Manglik</h4>
                         <div className="row g-2">
                           <div className="col-md-6">
                             <div className="p-2 bg-light rounded">
-                              <strong>मुलगा:</strong> {payload.doshas.manglik.boy?.present ? `होय (${payload.doshas.manglik.boy.intensity || '-'})` : 'नाही'}
+                              <strong>Groom:</strong> {payload.doshas.manglik.boy?.present ? `Yes (${payload.doshas.manglik.boy.intensity || '-'})` : 'No'}
                               {payload.doshas.manglik.boy?.cancelled_by && <span className="small text-muted"> — {payload.doshas.manglik.boy.cancelled_by}</span>}
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="p-2 bg-light rounded">
-                              <strong>मुलगी:</strong> {payload.doshas.manglik.girl?.present ? `होय (${payload.doshas.manglik.girl.intensity || '-'})` : 'नाही'}
+                              <strong>Bride:</strong> {payload.doshas.manglik.girl?.present ? `Yes (${payload.doshas.manglik.girl.intensity || '-'})` : 'No'}
                               {payload.doshas.manglik.girl?.cancelled_by && <span className="small text-muted"> — {payload.doshas.manglik.girl.cancelled_by}</span>}
                             </div>
                           </div>
@@ -587,11 +589,11 @@ const KundaliMatchPage = () => {
                     )}
                     {payload.doshas.nadi_dosha && (
                       <div>
-                        <h4 className="h6 fw-semibold mb-2">नाडी दोष (Nadi Dosha)</h4>
+                        <h4 className="h6 fw-semibold mb-2">Nadi Dosha</h4>
                         <div className="p-3 bg-light rounded mb-2">
-                          <p className="mb-1"><strong>उपस्थित:</strong> {payload.doshas.nadi_dosha.present ? 'होय' : 'नाही'} {payload.doshas.nadi_dosha.severity && ` — ${payload.doshas.nadi_dosha.severity}`}</p>
+                          <p className="mb-1"><strong>Present:</strong> {payload.doshas.nadi_dosha.present ? 'Yes' : 'No'} {payload.doshas.nadi_dosha.severity && ` — ${payload.doshas.nadi_dosha.severity}`}</p>
                           {Array.isArray(payload.doshas.nadi_dosha.remedies) && payload.doshas.nadi_dosha.remedies.length > 0 && (
-                            <p className="mb-0"><strong>उपाय:</strong> {payload.doshas.nadi_dosha.remedies.join(', ')}</p>
+                            <p className="mb-0"><strong>Remedies:</strong> {payload.doshas.nadi_dosha.remedies.join(', ')}</p>
                           )}
                         </div>
                       </div>
@@ -604,7 +606,7 @@ const KundaliMatchPage = () => {
           {doshasIsArray && payload.doshas?.length === 0 && (
             <div className="card border-0 shadow rounded-3 mb-4 overflow-hidden" style={{ borderLeft: '4px solid #2d6e4a' }}>
               <div className="card-body p-4">
-                <p className="mb-0 text-muted">दोष नाहीत / No doshas reported.</p>
+                <p className="mb-0 text-muted">No doshas reported.</p>
               </div>
             </div>
           )}
@@ -613,7 +615,7 @@ const KundaliMatchPage = () => {
           {/* {(payload?.ayanamsa || metadata) && (
             <div className="card border-0 shadow-sm rounded-3 mb-4">
               <div className="card-body py-2 px-3 small text-muted d-flex flex-wrap align-items-center gap-3">
-                {payload?.ayanamsa && <span>अयनांश / Ayanamsa: <strong>{payload.ayanamsa}</strong></span>}
+                {payload?.ayanamsa && <span>Ayanamsa: <strong>{payload.ayanamsa}</strong></span>}
                 {metadata?.calculation_time_ms != null && <span>Calculation: {metadata.calculation_time_ms} ms</span>}
                 {metadata?.api_version && <span>API v{metadata.api_version}</span>}
                 {metadata?.cache_hit === true && <span className="text-success">Served from cache</span>}
@@ -625,7 +627,7 @@ const KundaliMatchPage = () => {
           {payload.detailed_analysis && Object.keys(payload.detailed_analysis).length > 0 && (
             <div className="card border-0 shadow rounded-3 mb-4 overflow-hidden" style={{ borderLeft: '4px solid #2d6e4a' }}>
               <div className="card-header py-3 px-4 text-white" style={{ backgroundColor: '#2d6e4a' }}>
-                <h3 className="h6 fw-bold mb-0">तपशीलवार विश्लेषण</h3>
+                <h3 className="h6 fw-bold mb-0">Detailed Analysis</h3>
               </div>
               <div className="card-body p-4">
                 <div className="row g-2">

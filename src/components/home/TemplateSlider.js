@@ -29,7 +29,7 @@ const TemplateSlider = ({ templates, onCustomizeClick, onPreviewClick }) => {
         <button type="button" className="btn btn-outline-primary btn-sm w-50 rounded-pill" onClick={() => onPreviewClick(template)} aria-label="Preview">
           <i className="fas fa-eye me-1" aria-hidden="true" />
         </button>
-        <button type="button" className="btn btn-primary btn-sm w-50 rounded-pill" onClick={() => onCustomizeClick(template)}>वापरा</button>
+        <button type="button" className="btn btn-primary btn-sm w-50 rounded-pill" onClick={() => onCustomizeClick(template)}>Use</button>
       </div>
     </div>
   );

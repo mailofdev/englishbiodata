@@ -91,7 +91,7 @@ const ImageCropComponent = ({ handleCroppedImageChange }) => {
       <div className="mb-4">
         <label htmlFor="photoFileInput" className="btn btn-primary btn-lg px-4 py-3 w-100 w-md-auto">
           <span className="d-inline-block me-2" aria-hidden>📷</span>
-          छायाचित्र निवडा
+          Choose photo
         </label>
         <input
           id="photoFileInput"
@@ -99,7 +99,7 @@ const ImageCropComponent = ({ handleCroppedImageChange }) => {
           accept="image/*"
           onChange={handleImageChange}
           className="d-none"
-          aria-label="छायाचित्र निवडा"
+          aria-label="Choose photo"
         />
       </div>
 
@@ -124,7 +124,7 @@ const ImageCropComponent = ({ handleCroppedImageChange }) => {
             />
           </div>
           <div className="mt-3">
-            <label className="form-label small text-muted mb-1 d-block">झूम (Zoom)</label>
+            <label className="form-label small text-muted mb-1 d-block">Zoom</label>
             <input
               type="range"
               min={ZOOM_MIN}
@@ -142,14 +142,14 @@ const ImageCropComponent = ({ handleCroppedImageChange }) => {
               onClick={handleCropAndShowImage}
               disabled={!croppedAreaPixels}
             >
-              क्रॉप करा आणि जोडा
+              Crop & add
             </button>
             <button
               type="button"
               className="btn btn-outline-secondary"
               onClick={() => { setImageSrc(null); setCroppedAreaPixels(null); }}
             >
-              रद्द करा
+              Cancel
             </button>
           </div>
         </div>
@@ -158,11 +158,11 @@ const ImageCropComponent = ({ handleCroppedImageChange }) => {
       {/* Cropped preview – shown after crop */}
       {croppedImage && (
         <div className="photo-preview-section">
-          <p className="small fw-medium text-muted mb-2">आपले जोडलेले फोटो</p>
+          <p className="small fw-medium text-muted mb-2">Your added photo</p>
           <div className="photo-preview-frame rounded-3 overflow-hidden shadow-sm bg-light d-inline-block">
             <img
               src={croppedImage}
-              alt="आपले फोटो"
+              alt="Your photo"
               className="photo-preview-img"
             />
           </div>
@@ -172,7 +172,7 @@ const ImageCropComponent = ({ handleCroppedImageChange }) => {
               className="btn btn-outline-danger btn-sm"
               onClick={removeCroppedImage}
             >
-              फोटो काढा
+              Remove photo
             </button>
           </div>
         </div>

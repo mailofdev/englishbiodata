@@ -115,7 +115,7 @@ const PreviewPage = () => {
       const link = document.createElement("a");
       const userName = formData["नाव"]?.value || "download";
       link.href = url;
-      link.download = `${userName}_बायोडाटा.pdf`;
+      link.download = `${userName}_biodata.pdf`;
       link.click();
     } catch (error) {
       // Download failed
@@ -140,7 +140,7 @@ const PreviewPage = () => {
 
       doc.addImage(pdfImage, "PNG", 0, 0, 600, 800);
       const userName = formData["नाव"]?.value || "download";
-      doc.save(`${userName}_बायोडाटा_with_watermark.pdf`);
+      doc.save(`${userName}_biodata_with_watermark.pdf`);
     } catch (error) {
       // Watermark PDF failed
     }
@@ -239,7 +239,7 @@ const PreviewPage = () => {
         Preview — Template {templateId}
       </h1>
       <p className="text-muted text-center marathi-text mb-4">
-        आपला बायोडाटा तयार आहे. खालील पर्याय वापरा.
+        Your biodata is ready. Use the options below.
       </p>
 
       <div className="row justify-content-center">
@@ -261,7 +261,7 @@ const PreviewPage = () => {
                 <div className="pdf-preview-wrapper w-100">
                   <img
                     src={pdfImage}
-                    alt="बायोडाटा पूर्वावलोकन"
+                    alt="Biodata preview"
                     className="img-fluid rounded-3 shadow-sm pdf-preview-img"
                   />
                 </div>
@@ -274,7 +274,7 @@ const PreviewPage = () => {
           <div className="card border-0 shadow-sm mb-4 rounded-3">
             <div className="card-body p-4 p-md-5">
               <h2 className="h5 fw-bold text-primary mb-4 pb-2 border-bottom border-2 border-warning">
-                डाउनलोड किंवा संपादन
+                Download or Edit
               </h2>
               <div className="d-flex flex-wrap gap-3 justify-content-center">
                 <button
@@ -282,21 +282,21 @@ const PreviewPage = () => {
                   className="btn btn-outline-primary"
                   onClick={downloadPDFWithWatermark}
                 >
-                  वॉटरमार्कसह डाउनलोड
+                  Download with watermark
                 </button>
                 <button
                   type="button"
                   className="btn btn-primary"
                   onClick={handlePaymentAndDownload}
                 >
-                  पेमेंट आणि डाउनलोड
+                  Pay & download
                 </button>
                 <button
                   type="button"
                   className="btn btn-outline-info"
                   onClick={handleEditClick}
                 >
-                  माहिती दुरुस्त करा
+                  Edit details
                 </button>
               </div>
             </div>
@@ -305,7 +305,7 @@ const PreviewPage = () => {
           <div className="card border-0 shadow-sm mb-4 rounded-3">
             <div className="card-body p-4 p-md-5">
               <p className="small fw-bold mb-3 marathi-text">
-                टेम्प्लेट बदला (Select template):
+                Change template:
               </p>
               <div className="d-flex flex-wrap gap-2 justify-content-center">
                 {templates.map((id) => (

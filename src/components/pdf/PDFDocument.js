@@ -29,6 +29,41 @@ const styles = StyleSheet.create({
 });
 
 const PDFDocument = ({ formData, templateId, additionalImage, imagePreview, centerText }) => {
+  const LABELS_EN = {
+    नाव: 'Name',
+    जन्मतारीख: 'Date of Birth',
+    जन्मवेळ: 'Time of Birth',
+    जन्मस्थान: 'Place of Birth',
+    जन्मनाव: 'Birth Name',
+    धर्म: 'Religion',
+    जात: 'Caste',
+    कुलदैवत: 'Family Deity',
+    देवक: 'Devak',
+    गोत्र: 'Gotra',
+    नक्षत्र: 'Nakshatra',
+    रास: 'Rashi',
+    गण: 'Gana',
+    नाडी: 'Nadi',
+    ऊंची: 'Height',
+    रंग: 'Complexion',
+    रक्तगट: 'Blood Group',
+    शिक्षण: 'Education',
+    नोकरी: 'Profession',
+    पगार: 'Annual Income',
+    इतर_माहिती: 'Other Information',
+    वडिलांचे_नाव: "Father's Name",
+    वडिलांचा_व्यवसाय: "Father's Occupation",
+    आईचे_नाव: "Mother's Name",
+    बहीण: 'Sister(s)',
+    भाऊ: 'Brother(s)',
+    मामा: 'Maternal Uncle(s)',
+    दाजी: 'Brother-in-law(s)',
+    चूलते: 'Paternal Uncle(s)',
+    नातेसंबंध: 'Relatives',
+    पत्ता: 'Address',
+    मोबाईल_नं: 'Mobile Number',
+  };
+
   const getBackgroundImage = () => {
     const id = String(templateId);
     switch (id) {
@@ -57,7 +92,7 @@ const PDFDocument = ({ formData, templateId, additionalImage, imagePreview, cent
   const formatTime = (timeObj) => {
     if (!timeObj) return '';
     const { hour, minute, period } = timeObj;
-    return `${period} ${hour} वा. ${minute} मि.`;
+    return `${period} ${hour}:${String(minute).padStart(2, '0')}`;
   };
 
   const formatValue = (value, key) => {
@@ -74,7 +109,11 @@ const PDFDocument = ({ formData, templateId, additionalImage, imagePreview, cent
     }
   };
 
-  const formatLabel = (label) => label.replace(/_/g, ' ');
+  const formatLabel = (label) => {
+    const raw = String(label || '');
+    const key = raw.replace(/ /g, '_');
+    return (LABELS_EN[key] || LABELS_EN[raw] || raw).replace(/_/g, ' ');
+  };
   const { src: backgroundImage, style: additionalImageStyle } = getBackgroundImage();
 
   return (
@@ -87,7 +126,7 @@ const PDFDocument = ({ formData, templateId, additionalImage, imagePreview, cent
               <Image style={styles.imagePreview} src={imagePreview} />
             </View>
             <Text style={styles.sectionHeader}>{centerText}</Text>
-            <Text style={styles.sectionHeader}>बायोडाटा</Text>
+            <Text style={styles.sectionHeader}>Biodata</Text>
             {additionalImage && (
               <View style={{ ...styles.additionalImageContainer, ...additionalImageStyle }}>
                 <Image style={styles.additionalImage} src={additionalImage} />
@@ -102,7 +141,7 @@ const PDFDocument = ({ formData, templateId, additionalImage, imagePreview, cent
                 </View>
               ) : null
             )}
-            <Text style={styles.sectionHeader}>कौटुंबिक माहिती</Text>
+            <Text style={styles.sectionHeader}>Family Details</Text>
             {Object.entries(formData).map(([key, value]) =>
               ['वडिलांचे_नाव', 'वडिलांचा_व्यवसाय', 'आईचे_नाव', 'बहीण', 'भाऊ', 'मामा', 'चूलते',  'दाजी', 'नातेसंबंध'].includes(key) && formatValue(value, key) ? (
                 <View key={key} style={styles.line}>
@@ -112,7 +151,7 @@ const PDFDocument = ({ formData, templateId, additionalImage, imagePreview, cent
                 </View>
               ) : null
             )}
-            <Text style={styles.sectionHeader}>संपर्क</Text>
+            <Text style={styles.sectionHeader}>Contact</Text>
             {Object.entries(formData).map(([key, value]) =>
               ['पत्ता', 'मोबाईल_नं'].includes(key) && formatValue(value, key) ? (
                 <View key={key} style={styles.line}>

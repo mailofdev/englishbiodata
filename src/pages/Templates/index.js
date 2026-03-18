@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TemplateSlider from '../../components/home/TemplateSlider';
+import { content } from '../../content/staticContent';
 
 // const categories = ['All', 'Hindu', 'Muslim', 'Jain', 'Baudhha'];
 
@@ -8,6 +9,7 @@ const TemplatesPage = () => {
   const navigate = useNavigate();
   // const [selectedCategory, setSelectedCategory] = useState('All');
   const [previewTemplate, setPreviewTemplate] = useState(null);
+  const templatesPage = content.pages?.templates;
 
   const templates = [
     { id: 1, category: 'Hindu', imageUrl: './Marriage Biodata Template-01.png', bestSeller: true },
@@ -33,8 +35,8 @@ const TemplatesPage = () => {
   return (
     <div className="container py-4 py-lg-5">
       <section id="templates-section">
-        <h1 className="h2 fw-bold text-center mb-2">आमचे Templates</h1>
-        <p className="text-muted text-center marathi-text mb-4">आपल्या आवडीचा टेम्प्लेट निवडा आणि वापरा बटनावर क्लिक करा.</p>
+        <h1 className="h2 fw-bold text-center mb-2">{templatesPage?.title}</h1>
+        <p className="text-muted text-center marathi-text mb-4">{templatesPage?.subtitleMr}</p>
         {/* <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
           {categories.map((cat) => (
             <button
@@ -56,14 +58,14 @@ const TemplatesPage = () => {
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content shadow rounded-3">
               <div className="modal-header border-0 position-relative flex-shrink-0">
-                <h5 id="templatesPreviewTitle" className="modal-title fw-bold">Template Preview</h5>
+                <h5 id="templatesPreviewTitle" className="modal-title fw-bold">{templatesPage?.previewTitle}</h5>
                 <button type="button" className="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onClick={handleClosePreview} />
               </div>
               <div className="modal-body text-center">
                 <img src={previewTemplate.imageUrl} alt={`Template ${previewTemplate.id}`} className="img-fluid rounded shadow-sm" />
                 <div className="d-flex flex-wrap gap-2 justify-content-center mt-3 flex-shrink-0">
-                  <button type="button" className="btn btn-outline-secondary" onClick={handleClosePreview}>Close</button>
-                  <button type="button" className="btn btn-primary" onClick={() => handleCustomizeClick(previewTemplate)}>वापरा / Customize</button>
+                  <button type="button" className="btn btn-outline-secondary" onClick={handleClosePreview}>{templatesPage?.close}</button>
+                  <button type="button" className="btn btn-primary" onClick={() => handleCustomizeClick(previewTemplate)}>{templatesPage?.customize}</button>
                 </div>
               </div>
             </div>

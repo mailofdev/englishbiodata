@@ -1,0 +1,193 @@
+{
+  "site": {
+    "domain": "mazabiodata.com",
+    "brandName": "Mazabiodata",
+    "homeAriaLabel": "Mazabiodata Home",
+    "logoPath": "/logo1.jpeg"
+  },
+  "contact": {
+    "phoneDisplay": "+91 77769 14543",
+    "phoneHref": "tel:+917776914543",
+    "emailDisplay": "mazabiodata@gmail.com",
+    "emailHref": "mailto:mazabiodata@gmail.com"
+  },
+  "social": {
+    "facebook": {
+      "label": "Facebook",
+      "href": "https://www.facebook.com/people/Mazabiodata/61588046134260/"
+    },
+    "instagram": {
+      "label": "Instagram",
+      "href": "https://www.instagram.com/mazabiodata?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+    }
+  },
+  "nav": {
+    "links": [
+      { "to": "/", "label": "Home" },
+      { "to": "/image-templates", "label": "Templates" },
+      { "to": "/kundali-match", "label": "Kundali Match" }
+    ],
+    "mobileExtraLinks": [
+      { "to": "/terms", "label": "Terms & Conditions" }
+    ]
+  },
+  "footer": {
+    "followUsTitle": "Follow Us",
+    "quickLinksTitle": "Quick Links",
+    "quickLinks": [
+      { "to": "/about", "label": "About Us" },
+      { "to": "/contact", "label": "Contact Us" },
+      { "to": "/terms", "label": "Terms and Conditions" },
+      { "to": "/use-policy", "label": "Use Policies" }
+    ],
+    "seoLine": "Marriage Biodata Maker | Wedding Biodata Maker | Online Biodata Maker | Biodata PDF Download | Kundali Matching Online | 36 Gun Milan | Bride Biodata | Groom Biodata",
+    "developedBy": {
+      "label": "Developed by",
+      "name": "<Alpha Ankit/>",
+      "url": "https://ankit-portfolio-website-lime.vercel.app/"
+    }
+  },
+  "pages": {
+    "home": {
+      "heroTitle": "Marriage Biodata & 36 Gun Kundali Matching - All in One Place",
+      "heroSubtitle": "Fast. Professional. Reliable.",
+      "heroCtaPrimary": "Create Biodata",
+      "heroCtaSecondary": "Kundali Matching",
+      "sections": {
+        "howItWorks": "How to Create Marriage Biodata in 2 Minutes",
+        "templates": "Biodata Templates",
+        "whyBiodata": "Why Marriage Biodata is Important?",
+        "kundali": "Online Kundali Matching (36 Gun Milan)",
+        "formats": "Biodata Formats Available",
+        "whyChoose": "Why Choose This Platform?",
+        "faq": "Frequently Asked Questions (FAQ)",
+        "cta": "Create Biodata Now & Match Kundali Now"
+      }
+    },
+    "templates": {
+      "title": "Our Templates",
+      "subtitleMr": "Choose your preferred template and click Use to start.",
+      "previewTitle": "Template Preview",
+      "close": "Close",
+      "customize": "Use / Customize"
+    },
+    "joinWhatsApp": {
+      "title": "Join Our WhatsApp Groups",
+      "subtitleMr": "Join WhatsApp groups related to marriage.",
+      "tableGroupName": "Group Name",
+      "tableAction": "Action",
+      "viewInfo": "View Info",
+      "modalDistrict": "District:",
+      "modalCast": "Cast:",
+      "modalGroupAdmin": "Group Admin:",
+      "modalAdminMobile": "Admin Mobile:",
+      "modalInfo": "Info:",
+      "joinGroup": "Join Group"
+    },
+    "kundaliMatch": {
+      "headerTitle": "Kundali Match / Guna Milan",
+      "headerSubtitle": "Enter the birth date and time of both boy and girl to check compatibility.",
+      "boyTitle": "Groom",
+      "girlTitle": "Bride",
+      "resultTitle": "Match Result",
+      "includeManglik": "Include Manglik",
+      "submit": "Check Kundali Match",
+      "loading": "Checking…"
+    },
+    "about": {
+      "title": "About Mazabiodata",
+      "subtitle": "Your premier destination for personalized wedding biodata.",
+      "welcome": "Welcome to Mazabiodata, your premier destination for creating personalized wedding biodata in PDF format. Our mission is to provide a seamless and efficient solution for couples seeking to showcase their love story in a beautiful and professional manner.",
+      "whyTitle": "Why Choose Mazabiodata?",
+      "whyBullets": [
+        {
+          "title": "Effortless Creation:",
+          "text": "Our user-friendly interface allows you to input your details with ease, guiding you through each step of the process."
+        },
+        {
+          "title": "Customization Options:",
+          "text": "Tailor your biodata to your preferences with various design templates and layout options."
+        },
+        {
+          "title": "High-Quality PDF Output:",
+          "text": "We ensure that every PDF biodata generated on our platform meets the highest standards of quality and professionalism."
+        },
+        {
+          "title": "Instant Download:",
+          "text": "Once your biodata is ready, simply download it instantly and share it with your intended audience."
+        }
+      ],
+      "privacyTitle": "Your Privacy Matters",
+      "privacyText": "We understand the sensitivity of personal information, especially when it comes to matters of the heart. That's why we prioritize the privacy and security of your data, ensuring that your information remains confidential at all times.",
+      "ctaTitle": "Get Started Today!",
+      "ctaText": "Ready to create your personalized PDF biodata? Sign up now and begin crafting a document that captures the essence of your love story. Mazabiodata is here to simplify the process and help you present your story with pride and confidence."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "subtitleMr": "Use the details below to contact us.",
+      "cardTitle": "mazabiodata.com"
+    },
+    "terms": {
+      "title": "Terms and Conditions for MazaBiodata",
+      "paragraphs": [
+        "This document is an electronic record in terms of Information Technology Act, 2000 and rules there under as applicable and the amended provisions pertaining to electronic records in various statutes as amended by the Information Technology Act, 2000. This electronic record is generated by a computer system and does not require any physical or digital signatures.",
+        "This document is published in accordance with the provisions of Rule 3 (1) of the Information Technology (Intermediaries guidelines) Rules, 2011 that require publishing the rules and regulations, privacy policy and Terms of Use for access or usage of domain name http://www.mazabiodata.com ('Website'), including the related mobile site and mobile application (hereinafter referred to as 'Platform').",
+        "The Platform is owned by ASHUTOSH VISHWANATH MORE, a company incorporated under the Companies Act, 1956 with its registered office at Solapur, Solapur, SOLAPUR, MAHARASHTRA, 413302 (hereinafter referred to as 'Platform Owner', 'we', 'us', 'our')..",
+        "Your use of the Platform and services and tools are governed by the following terms and conditions (\"Terms of Use\") as applicable to the Platform including the applicable policies which are incorporated herein by way of reference. If You transact on the Platform, You shall be subject to the policies that are applicable to the Platform for such transaction. By mere use of the Platform, You shall be contracting with the Platform Owner and these terms and conditions including the policies constitute Your binding obligations, with Platform Owner.",
+        "ACCESSING, BROWSING OR OTHERWISE USING THE PLATFORM INDICATES YOUR AGREEMENT TO ALL THE TERMS AND CONDITIONS UNDER THESE TERMS OF USE, SO PLEASE READ THE TERMS OF USE CAREFULLY BEFORE PROCEEDING.",
+        "Neither we nor any third parties provide any warranty or guarantee as to the accuracy, timeliness, performance, completeness or suitability of the information and materials offered on this website or through the Services, for any specific purpose. You acknowledge that such information and materials may contain inaccuracies or errors and we expressly exclude liability for any such inaccuracies or errors to the fullest extent permitted by law.",
+        "Your use of our Services and the Platform is solely and entirely at your own risk and discretion for which we shall not be liable to you in any manner. You are required to independently assess and ensure that the Services meet your requirements.",
+        "The contents of the Platform and the Services are proprietary to us and are licensed to us. You will not have any authority to claim any intellectual property rights, title, or interest in its contents.",
+        "These Terms and any dispute or claim relating to it, or its enforceability, shall be governed by and construed in accordance with the laws of India. All disputes arising out of or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts in Pilani and Rajasthan.",
+        "All concerns or communications relating to these Terms must be communicated to us using the contact information provided on this website."
+      ]
+    },
+    "usePolicy": {
+      "title": "Use Policy for MazaBiodata",
+      "effectiveDateLabel": "Effective Date:",
+      "effectiveDate": "30/07/2024",
+      "sections": [
+        {
+          "title": "1. Introduction",
+          "body": "This Privacy Policy describes how ASHUTOSH VISHWANATH MORE and its affiliates (collectively \"ASHUTOSH VISHWANATH MORE, we, our, us\") collect, use, share, protect or otherwise process your information/ personal data through our website http://www.mazabiodata.com (hereinafter referred to as Platform). Please note that you may be able to browse certain sections of the Platform without registering with us. We do not offer any product/service under this Platform outside India and your personal data will primarily be stored and processed in India. By visiting this Platform, providing your information or availing any product/service offered on the Platform, you expressly agree to be bound by the terms and conditions of this Privacy Policy, the Terms of Use and the applicable service/product terms and conditions, and agree to be governed by the laws of India including but not limited to the laws applicable to data protection and privacy. If you do not agree please do not use or access our Platform."
+        },
+        {
+          "title": "2. Collection",
+          "body": "We collect your personal data when you use our Platform, services or otherwise interact with us during the course of our relationship. Some of the information that we may collect includes but is not limited to personal data / information provided to us during sign-up/registering or using our Platform such as name, date of birth, address, telephone/mobile number, email ID and/or any such information shared as proof of identity or address. You always have the option to not provide information, by choosing not to use a particular service or feature on the Platform."
+        },
+        {
+          "title": "3. Usage",
+          "body": "We use personal data to provide the services you request. To the extent we use your personal data to market to you, we will provide you the ability to opt-out of such uses. We use your personal data to assist sellers and business partners in handling and fulfilling orders; enhancing customer experience; to resolve disputes; troubleshoot problems; and as otherwise described to you at the time of collection of information."
+        },
+        {
+          "title": "4. Sharing",
+          "body": "We may share your personal data internally within our group entities, our other corporate entities, and affiliates to provide you access to the services and products offered by them. We may disclose personal data to third parties such as sellers, business partners, third party service providers when required for our services. We may disclose personal data to government agencies or other authorised law enforcement agencies if required to do so by law."
+        },
+        {
+          "title": "5. Security Precautions",
+          "body": "To protect your personal data from unauthorised access or disclosure, loss or misuse we adopt reasonable security practices and procedures. However, the transmission of information over the internet cannot always be guaranteed as completely secure. Users are responsible for ensuring the protection of login and password records for their account."
+        },
+        {
+          "title": "6. Data Deletion and Retention",
+          "body": "You have an option to delete your account by visiting your profile and settings on our Platform. We retain your personal data for a period no longer than is required for the purpose for which it was collected or as required under any applicable law."
+        },
+        {
+          "title": "7. Refund Policy",
+          "body": "In case of any refunds approved by ASHUTOSH VISHWANATH MORE, it will take 7 days for the refund to be Credited to you."
+        },
+        {
+          "title": "8. Your Rights",
+          "body": "You may access, rectify, and update your personal data directly through the functionalities provided on the Platform."
+        },
+        {
+          "title": "9. Contact Us",
+          "bodyLines": [
+            "If you have any questions or concerns, contact us at:",
+            "MazaBiodata",
+            "+91 77769 14543"
+          ]
+        }
+      ]
+    }
+  }
+}

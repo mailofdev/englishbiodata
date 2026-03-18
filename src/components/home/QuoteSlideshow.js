@@ -25,7 +25,7 @@ const QuoteSlideshow = () => {
         <div className="row align-items-center">
           <div className="col-12 col-md-8">
             <h2 id="kundali-cta-heading" className="h4 fw-bold mb-1 mb-md-2 text-white">
-              Online 36 Gun Kundali Milan (कुंडली गुणमिलन)
+              Online 36 Gun Kundali Milan
             </h2>
           </div>
           <div className="col-12 col-md-4 text-center text-md-end mt-2 mt-md-0">
@@ -34,7 +34,7 @@ const QuoteSlideshow = () => {
               className="btn btn-light rounded-pill px-4 py-2 fw-semibold shadow-sm"
               onClick={handleJoinNow}
             >
-              कुंडली गुणमिलन करा
+              Check Kundali Match
             </button>
           </div>
         </div>

@@ -151,7 +151,7 @@ export function normalizeAstrologyKundliResponse(apiResponse) {
     totalPoints: totalScore,
     maxPoints: maxPoints,
     percentage: d?.percentage ?? percentage,
-    verdict: d?.verdict ?? d?.match_report ?? (percentage >= 75 ? 'अत्यंत अनुकूल' : percentage >= 50 ? 'अनुकूल' : 'तपासा'),
+    verdict: d?.verdict ?? d?.match_report ?? (percentage >= 75 ? 'Highly Compatible' : percentage >= 50 ? 'Compatible' : 'Needs Review'),
     recommendation: d?.recommendation ?? d?.conclusion ?? d?.match_report ?? (d?.remedies ? (Array.isArray(d.remedies) ? d.remedies.join('; ') : String(d.remedies)) : ''),
     guna_milan: typeof kutas === 'object' && kutas !== null ? kutas : {},
     doshas: d?.doshas ?? { manglik: d?.manglik, nadi_dosha: d?.nadi_dosha, bhakoot_dosha: d?.bhakoot_dosha },
