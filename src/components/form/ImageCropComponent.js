@@ -162,7 +162,7 @@ const ImageCropComponent = ({ handleCroppedImageChange }) => {
           <div className="photo-preview-frame rounded-3 overflow-hidden shadow-sm bg-light d-inline-block">
             <img
               src={croppedImage}
-              alt="Your photo"
+              alt="Cropped preview"
               className="photo-preview-img"
             />
           </div>
