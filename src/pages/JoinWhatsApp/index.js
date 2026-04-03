@@ -27,7 +27,7 @@ const JoinWhatsAppPage = () => {
   return (
     <div className="container py-4 py-lg-5">
       <h1 className="h2 fw-bold text-center mb-2">{page?.title}</h1>
-      <p className="text-muted text-center marathi-text mb-4">{page?.subtitleMr}</p>
+      <p className="text-muted text-center app-body-text mb-4">{page?.subtitle}</p>
 
       {/* Desktop: table */}
       <div className="d-none d-md-block card border-0 shadow-sm overflow-hidden rounded-3">

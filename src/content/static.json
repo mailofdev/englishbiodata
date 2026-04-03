@@ -40,7 +40,7 @@
       { "to": "/terms", "label": "Terms and Conditions" },
       { "to": "/use-policy", "label": "Use Policies" }
     ],
-    "seoLine": "Marriage Biodata Maker | Wedding Biodata Maker | Online Biodata Maker | Biodata PDF Download | Kundali Matching Online | 36 Gun Milan | Bride Biodata | Groom Biodata",
+    "seoLine": "English Marriage Biodata Maker | Online Biodata PDF | Wedding Biodata | Bride & Groom Biodata | Kundali Matching | 36 Gun Milan | Mazabiodata",
     "developedBy": {
       "label": "Developed by",
       "name": "<Alpha Ankit/>",
@@ -66,14 +66,14 @@
     },
     "templates": {
       "title": "Our Templates",
-      "subtitleMr": "Choose your preferred template and click Use to start.",
+      "subtitle": "Choose your preferred template and click Use to start.",
       "previewTitle": "Template Preview",
       "close": "Close",
       "customize": "Use / Customize"
     },
     "joinWhatsApp": {
       "title": "Join Our WhatsApp Groups",
-      "subtitleMr": "Join WhatsApp groups related to marriage.",
+      "subtitle": "Join WhatsApp groups related to marriage.",
       "tableGroupName": "Group Name",
       "tableAction": "Action",
       "viewInfo": "View Info",
@@ -124,7 +124,7 @@
     },
     "contact": {
       "title": "Contact Us",
-      "subtitleMr": "Use the details below to contact us.",
+      "subtitle": "Use the details below to contact us.",
       "cardTitle": "mazabiodata.com"
     },
     "terms": {

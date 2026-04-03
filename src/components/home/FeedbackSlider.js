@@ -54,8 +54,8 @@ const FeedbackSlider = () => {
                   <img src={flowerIcon} alt="" width="24" height="24" aria-hidden="true" />
                   <img src={flowerIcon} alt="" width="24" height="24" aria-hidden="true" />
                 </div>
-                <p className="flex-grow-1 text-muted small mb-3 marathi-text" style={{ lineHeight: 1.7 }}>{feedback.text}</p>
-                <h3 className="h6 fw-bold mb-0 text-primary marathi-text">{feedback.name}</h3>
+                <p className="flex-grow-1 text-muted small mb-3 app-body-text" style={{ lineHeight: 1.7 }}>{feedback.text}</p>
+                <h3 className="h6 fw-bold mb-0 text-primary app-body-text">{feedback.name}</h3>
                 </div>
               </div>
             </SwiperSlide>

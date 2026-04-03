@@ -255,8 +255,8 @@ const KundaliMatchPage = () => {
   return (
     <div className="pb-2 kundali-match-page">
       <div className="text-center mb-5">
-        <h1 className="h2 fw-bold marathi-text mb-2" style={{ color: '#5C2D6E' }}>{page?.headerTitle}</h1>
-        <p className="text-muted marathi-text mb-0" style={{ maxWidth: '420px', margin: '0 auto' }}>
+        <h1 className="h2 fw-bold app-body-text mb-2" style={{ color: '#5C2D6E' }}>{page?.headerTitle}</h1>
+        <p className="text-muted app-body-text mb-0" style={{ maxWidth: '420px', margin: '0 auto' }}>
           {page?.headerSubtitle}
         </p>
       </div>

@@ -1,18 +1,8 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet, Font, Image } from '@react-pdf/renderer';
-import NotoSansDevanagariRegular from '../../assets/fonts/NotoSansDevanagari-Regular.ttf';
-import NotoSansDevanagariBold from '../../assets/fonts/NotoSansDevanagari-Bold.ttf';
-
-Font.register({
-  family: 'NotoSansDevanagari',
-  fonts: [
-    { src: NotoSansDevanagariRegular, fontWeight: 'normal' },
-    { src: NotoSansDevanagariBold, fontWeight: 'bold' },
-  ],
-});
+import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
-  page: { fontFamily: 'NotoSansDevanagari', position: 'relative' },
+  page: { fontFamily: 'Helvetica', position: 'relative', fontSize: 11 },
   imageContainer: { position: 'relative', width: '100%', height: '100%' },
   backgroundImage: { width: '100%', height: '100%', opacity: 1.0 },
   content: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, padding: 80, paddingTop: 10 },
@@ -28,42 +18,57 @@ const styles = StyleSheet.create({
   imagePreview: { width: 60, height: 60 },
 });
 
-const PDFDocument = ({ formData, templateId, additionalImage, imagePreview, centerText }) => {
-  const LABELS_EN = {
-    नाव: 'Name',
-    जन्मतारीख: 'Date of Birth',
-    जन्मवेळ: 'Time of Birth',
-    जन्मस्थान: 'Place of Birth',
-    जन्मनाव: 'Birth Name',
-    धर्म: 'Religion',
-    जात: 'Caste',
-    कुलदैवत: 'Family Deity',
-    देवक: 'Devak',
-    गोत्र: 'Gotra',
-    नक्षत्र: 'Nakshatra',
-    रास: 'Rashi',
-    गण: 'Gana',
-    नाडी: 'Nadi',
-    ऊंची: 'Height',
-    रंग: 'Complexion',
-    रक्तगट: 'Blood Group',
-    शिक्षण: 'Education',
-    नोकरी: 'Profession',
-    पगार: 'Annual Income',
-    इतर_माहिती: 'Other Information',
-    वडिलांचे_नाव: "Father's Name",
-    वडिलांचा_व्यवसाय: "Father's Occupation",
-    आईचे_नाव: "Mother's Name",
-    बहीण: 'Sister(s)',
-    भाऊ: 'Brother(s)',
-    मामा: 'Maternal Uncle(s)',
-    दाजी: 'Brother-in-law(s)',
-    चूलते: 'Paternal Uncle(s)',
-    नातेसंबंध: 'Relatives',
-    पत्ता: 'Address',
-    मोबाईल_नं: 'Mobile Number',
-  };
+const FIELD_LABELS = {
+  name: 'Name',
+  "Boy's Name": "Boy's Name",
+  "Girl's Name": "Girl's Name",
+  date_of_birth: 'Date of Birth',
+  DOB: 'DOB',
+  time_of_birth: 'Time of Birth',
+  place_of_birth: 'Place of Birth',
+  'Birth Place': 'Birth Place',
+  birth_name: 'Birth Name',
+  Nickname: 'Nickname',
+  'Rashi Name': 'Rashi Name',
+  religion: 'Religion',
+  caste: 'Caste',
+  family_deity: 'Family Deity',
+  devak: 'Devak',
+  gotra: 'Gotra',
+  nakshatra: 'Nakshatra',
+  rashi: 'Rashi',
+  gana: 'Gana',
+  nadi: 'Nadi',
+  height: 'Height',
+  complexion: 'Complexion',
+  'Skin tone': 'Skin tone',
+  blood_group: 'Blood Group',
+  education: 'Education',
+  profession: 'Profession',
+  Occupation: 'Occupation',
+  annual_income: 'Annual Income',
+  'Salary (Annual)': 'Salary (Annual)',
+  'Income (Annual)': 'Income (Annual)',
+  other_information: 'Other Information',
+  fathers_name: "Father's Name",
+  fathers_occupation: "Father's Occupation",
+  mothers_name: "Mother's Name",
+  sisters: 'Sister(s)',
+  brothers: 'Brother(s)',
+  maternal_uncles: 'Maternal Uncle(s)',
+  brothers_in_law: 'Brother-in-law(s)',
+  paternal_uncles: 'Paternal Uncle(s)',
+  relatives: 'Relatives',
+  other: 'Other',
+  address: 'Address',
+  mobile_number: 'Mobile Number',
+};
 
+const FAMILY_KEYS = ['fathers_name', 'fathers_occupation', 'mothers_name', 'sisters', 'brothers', 'maternal_uncles', 'paternal_uncles', 'brothers_in_law', 'relatives', 'other'];
+const CONTACT_KEYS = ['address', 'mobile_number'];
+const EXCLUDE_MAIN = [...FAMILY_KEYS, ...CONTACT_KEYS];
+
+const PDFDocument = ({ formData, templateId, additionalImage, imagePreview, centerText }) => {
   const getBackgroundImage = () => {
     const id = String(templateId);
     switch (id) {
@@ -97,13 +102,13 @@ const PDFDocument = ({ formData, templateId, additionalImage, imagePreview, cent
 
   const formatValue = (value, key) => {
     switch (key) {
-      case 'जन्मतारीख': return formatDate(value);
-      case 'जन्मवेळ': return formatTime(value);
-      case 'बहीण':
-      case 'भाऊ':
-      case 'मामा':
-      case 'चूलते':
-      case 'दाजी':
+      case 'date_of_birth': return formatDate(value);
+      case 'time_of_birth': return formatTime(value);
+      case 'sisters':
+      case 'brothers':
+      case 'maternal_uncles':
+      case 'paternal_uncles':
+      case 'brothers_in_law':
         return value.some(item => item.value) ? value.map(item => item.value).join(', ') : '';
       default: return value && value.value ? value.value : '';
     }
@@ -112,7 +117,7 @@ const PDFDocument = ({ formData, templateId, additionalImage, imagePreview, cent
   const formatLabel = (label) => {
     const raw = String(label || '');
     const key = raw.replace(/ /g, '_');
-    return (LABELS_EN[key] || LABELS_EN[raw] || raw).replace(/_/g, ' ');
+    return (FIELD_LABELS[key] || FIELD_LABELS[raw] || raw).replace(/_/g, ' ');
   };
   const { src: backgroundImage, style: additionalImageStyle } = getBackgroundImage();
 
@@ -133,7 +138,7 @@ const PDFDocument = ({ formData, templateId, additionalImage, imagePreview, cent
               </View>
             )}
             {Object.entries(formData).map(([key, value]) =>
-              !['वडिलांचे_नाव', 'वडिलांचा_व्यवसाय', 'आईचे_नाव', 'बहीण', 'भाऊ', 'मामा', 'चूलते', 'दाजी', 'पत्ता', 'मोबाईल_नं', 'नातेसंबंध'].includes(key) && formatValue(value, key) ? (
+              !EXCLUDE_MAIN.includes(key) && formatValue(value, key) ? (
                 <View key={key} style={styles.line}>
                   <Text style={styles.label}>{formatLabel(value.title || key)}</Text>
                   <Text style={styles.colon}>: </Text>
@@ -143,7 +148,7 @@ const PDFDocument = ({ formData, templateId, additionalImage, imagePreview, cent
             )}
             <Text style={styles.sectionHeader}>Family Details</Text>
             {Object.entries(formData).map(([key, value]) =>
-              ['वडिलांचे_नाव', 'वडिलांचा_व्यवसाय', 'आईचे_नाव', 'बहीण', 'भाऊ', 'मामा', 'चूलते',  'दाजी', 'नातेसंबंध'].includes(key) && formatValue(value, key) ? (
+              FAMILY_KEYS.includes(key) && formatValue(value, key) ? (
                 <View key={key} style={styles.line}>
                   <Text style={styles.label}>{formatLabel(value.title || key)}</Text>
                   <Text style={styles.colon}>: </Text>
@@ -153,7 +158,7 @@ const PDFDocument = ({ formData, templateId, additionalImage, imagePreview, cent
             )}
             <Text style={styles.sectionHeader}>Contact</Text>
             {Object.entries(formData).map(([key, value]) =>
-              ['पत्ता', 'मोबाईल_नं'].includes(key) && formatValue(value, key) ? (
+              CONTACT_KEYS.includes(key) && formatValue(value, key) ? (
                 <View key={key} style={styles.line}>
                   <Text style={styles.label}>{formatLabel(value.title || key)}</Text>
                   <Text style={styles.colon}>: </Text>

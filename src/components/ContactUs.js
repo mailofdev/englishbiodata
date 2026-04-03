@@ -8,7 +8,7 @@ const Contact = () => {
       <div className="row justify-content-center">
         <div className="col-12 col-md-10 col-lg-8">
           <h1 className="h2 fw-bold text-center mb-3">{contactPage?.title}</h1>
-          <p className="text-muted text-center marathi-text mb-4">{contactPage?.subtitleMr}</p>
+          <p className="text-muted text-center app-body-text mb-4">{contactPage?.subtitle}</p>
 
           <div className="card border-0 shadow-sm rounded-3">
             <div className="card-body p-4 p-md-5">

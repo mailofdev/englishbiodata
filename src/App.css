@@ -6,7 +6,7 @@
 /* ---------- CSS variables (for overrides) ---------- */
 :root {
   /* Typography */
-  --maza-font: "Poppins", "Noto Sans Devanagari", "Tiro Devanagari Marathi", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --maza-font: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", sans-serif;
 
   /* Primary – Royal Plum (Trust + Tradition, no blue/green/orange) */
   --maza-primary: #5C2D6E;
@@ -202,9 +202,9 @@ footer.bg-primary .text-opacity-75 {
   border-color: rgba(255,255,255,0.2);
 }
 
-/* Marathi / Devanagari (Poppins first, Devanagari fallback for script) */
-.marathi-text,
-[lang="mr"] {
+/* Readable body text (hero, previews, secondary copy) */
+.app-body-text,
+[lang="en"] {
   font-family: var(--maza-font);
   line-height: 1.65;
   letter-spacing: 0.02em;
@@ -246,7 +246,7 @@ footer.bg-primary .text-opacity-75 {
   border-left-width: 4px !important;
 }
 
-/* Deity accent block (InputForm – कुलदैवत, देवक) */
+/* Deity accent block (InputForm – family_deity, devak) */
 .deity-accent {
   border-left: 4px solid var(--maza-accent);
   background: linear-gradient(90deg, rgba(201, 168, 108, 0.14) 0%, transparent 100%);
@@ -254,7 +254,7 @@ footer.bg-primary .text-opacity-75 {
   border-radius: 0 0.5rem 0.5rem 0;
 }
 
-/* ---------- Photo upload / crop flow (तुमचा फोटो जोडा) ---------- */
+/* ---------- Photo upload / crop flow ---------- */
 .photo-upload-flow {
   max-width: 100%;
 }

@@ -64,7 +64,7 @@ const HomePage = () => {
               <h1 className="hero-heading fw-bold mb-3">
                 {home?.heroTitle}
               </h1>
-              <p className="hero-subtitle lead mb-3 mx-auto opacity-90 marathi-text" style={{ maxWidth: '32rem' }}>
+              <p className="hero-subtitle lead mb-3 mx-auto opacity-90 app-body-text" style={{ maxWidth: '32rem' }}>
                 {home?.heroSubtitle}
               </p>
 
@@ -92,7 +92,7 @@ const HomePage = () => {
           <div className="row g-3 g-md-4 align-items-start">
             <div className="col-12 col-lg-6">
               <p className="text-body mb-2">
-                Create your Marathi Marriage Biodata online in just 2 minutes. MazaBiodata is a fast, simple, and professional Marathi Biodata Maker designed specifically for marriage purposes. Trending Marathi marriage biodata in Maharashtra.
+                Create your English marriage biodata online in just 2 minutes. MazaBiodata is a fast, simple, and professional biodata maker for marriage—with clear labels, PDF download, and optional Kundali matching.
               </p>
               <p className="text-body mb-2 fw-semibold">You can generate:</p>
               <ul className="list-unstyled d-flex flex-column gap-1 mb-0">
@@ -122,10 +122,10 @@ const HomePage = () => {
               <div className="bg-white rounded-3 p-3 p-md-4 shadow-sm border border-1 h-100" style={{ borderColor: 'var(--maza-border)' }}>
                 <p className="fw-semibold text-secondary mb-2 small">🔎 If you are searching for:</p>
                 <ul className="list-unstyled d-flex flex-wrap gap-2 mb-2">
-                  <li className="px-2 py-1 bg-light border rounded-pill small fw-medium" style={{ borderColor: 'var(--maza-border)' }}>&quot;marathi biodata maker online&quot;</li>
-                  <li className="px-2 py-1 bg-light border rounded-pill small fw-medium" style={{ borderColor: 'var(--maza-border)' }}>&quot;marriage biodata format in marathi&quot;</li>
-                  <li className="px-2 py-1 bg-light border rounded-pill small fw-medium" style={{ borderColor: 'var(--maza-border)' }}>&quot;kundali matching online marathi&quot;</li>
-                  <li className="px-2 py-1 bg-light border rounded-pill small fw-medium" style={{ borderColor: 'var(--maza-border)' }}>&quot;lagna sathi biodata format&quot;</li>
+                  <li className="px-2 py-1 bg-light border rounded-pill small fw-medium" style={{ borderColor: 'var(--maza-border)' }}>&quot;english marriage biodata maker&quot;</li>
+                  <li className="px-2 py-1 bg-light border rounded-pill small fw-medium" style={{ borderColor: 'var(--maza-border)' }}>&quot;online biodata for marriage pdf&quot;</li>
+                  <li className="px-2 py-1 bg-light border rounded-pill small fw-medium" style={{ borderColor: 'var(--maza-border)' }}>&quot;kundali matching online&quot;</li>
+                  <li className="px-2 py-1 bg-light border rounded-pill small fw-medium" style={{ borderColor: 'var(--maza-border)' }}>&quot;bride groom biodata format&quot;</li>
                 </ul>
                 <p className="fw-semibold text-dark mb-0 small">This platform provides the fastest and easiest solution.</p>
               </div>

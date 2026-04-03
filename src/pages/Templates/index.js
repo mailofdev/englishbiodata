@@ -36,7 +36,7 @@ const TemplatesPage = () => {
     <div className="container py-4 py-lg-5">
       <section id="templates-section">
         <h1 className="h2 fw-bold text-center mb-2">{templatesPage?.title}</h1>
-        <p className="text-muted text-center marathi-text mb-4">{templatesPage?.subtitleMr}</p>
+        <p className="text-muted text-center app-body-text mb-4">{templatesPage?.subtitle}</p>
         {/* <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
           {categories.map((cat) => (
             <button

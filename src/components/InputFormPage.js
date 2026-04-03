@@ -7,52 +7,50 @@ import lakshmiImg from "../assets/images/lakshmi.png";
 import bismillahImg from "../assets/images/bismillah.png";
 import christImg from "../assets/images/christ.png";
 
-const LABELS_EN = {
-  नाव: "Name",
-  "मुलाचे नाव": "Boy's Name",
-  "मुलीचे नाव": "Girl's Name",
-  जन्मतारीख: "Date of Birth",
-  जन्मदिनांक: "Date of Birth",
-  जन्मवेळ: "Time of Birth",
-  जन्मस्थान: "Place of Birth",
-  "जन्म स्थळ": "Place of Birth",
-  "जन्म ठिकाण": "Place of Birth",
-  जन्मनाव: "Birth Name",
-  "नावरस नाव": "Nickname",
-  "रास नाव": "Rashi Name",
-  धर्म: "Religion",
-  जात: "Caste",
-  कुलदैवत: "Family Deity",
-  देवक: "Devak",
-  गोत्र: "Gotra",
-  नक्षत्र: "Nakshatra",
-  रास: "Rashi",
-  गण: "Gana",
-  नाडी: "Nadi",
-  ऊंची: "Height",
-  रंग: "Complexion",
-  वर्ण: "Complexion",
-  रक्तगट: "Blood Group",
-  शिक्षण: "Education",
-  नोकरी: "Profession",
-  व्यवसाय: "Profession",
-  पगार: "Annual Income",
-  "पगार(वार्षिक)": "Annual Income",
-  "वेतन(वार्षिक)": "Annual Income",
-  "उत्पन्न(वार्षिक)": "Annual Income",
-  इतर_माहिती: "Other Information",
-  वडिलांचे_नाव: "Father's Name",
-  वडिलांचा_व्यवसाय: "Father's Occupation",
-  आईचे_नाव: "Mother's Name",
-  बहीण: "Sister(s)",
-  भाऊ: "Brother(s)",
-  मामा: "Maternal Uncle(s)",
-  दाजी: "Brother-in-law(s)",
-  चूलते: "Paternal Uncle(s)",
-  नातेसंबंध: "Relatives",
-  इतर: "Other",
-  पत्ता: "Address",
-  मोबाईल_नं: "Mobile Number",
+/** Display labels for field keys and title variants (English biodata). */
+const FIELD_LABELS = {
+  name: "Name",
+  "Boy's Name": "Boy's Name",
+  "Girl's Name": "Girl's Name",
+  date_of_birth: "Date of Birth",
+  DOB: "DOB",
+  time_of_birth: "Time of Birth",
+  place_of_birth: "Place of Birth",
+  "Birth Place": "Birth Place",
+  birth_name: "Birth Name",
+  Nickname: "Nickname",
+  "Rashi Name": "Rashi Name",
+  religion: "Religion",
+  caste: "Caste",
+  family_deity: "Family Deity",
+  devak: "Devak",
+  gotra: "Gotra",
+  nakshatra: "Nakshatra",
+  rashi: "Rashi",
+  gana: "Gana",
+  nadi: "Nadi",
+  height: "Height",
+  complexion: "Complexion",
+  "Skin tone": "Skin tone",
+  blood_group: "Blood Group",
+  education: "Education",
+  profession: "Profession",
+  annual_income: "Annual Income",
+  "Salary (Annual)": "Salary (Annual)",
+  "Income (Annual)": "Income (Annual)",
+  other_information: "Other Information",
+  fathers_name: "Father's Name",
+  fathers_occupation: "Father's Occupation",
+  mothers_name: "Mother's Name",
+  sisters: "Sister(s)",
+  brothers: "Brother(s)",
+  maternal_uncles: "Maternal Uncle(s)",
+  brothers_in_law: "Brother-in-law(s)",
+  paternal_uncles: "Paternal Uncle(s)",
+  relatives: "Relatives",
+  other: "Other",
+  address: "Address",
+  mobile_number: "Mobile Number",
 };
 
 const SECTION_TITLES_EN = {
@@ -67,7 +65,7 @@ function toEnglishLabel(keyOrLabel) {
   if (!keyOrLabel) return "";
   const raw = String(keyOrLabel);
   const key = raw.replace(/ /g, "_");
-  return LABELS_EN[key] || LABELS_EN[raw] || raw.replace(/_/g, " ");
+  return FIELD_LABELS[key] || FIELD_LABELS[raw] || raw.replace(/_/g, " ");
 }
 
 const InputFormPage = () => {
@@ -83,44 +81,43 @@ const InputFormPage = () => {
   }, []);
   
   const [formData, setFormData] = useState(initialFormData || {
-    नाव: { value: "", type: "text", titleOptions: ["नाव", "मुलाचे नाव", "मुलीचे नाव"],  restrictNumbers: true },
-    जन्मतारीख: { day: "", month: "", year: "", varr:"", type: "date", titleOptions: ["जन्मतारीख", "जन्मदिनांक"] },
-    जन्मवेळ: { hour: "", minute: "", period: "", type: "time" },
-    जन्मस्थान: { value: "", type: "text", titleOptions: ["जन्म स्थळ", "जन्म ठिकाण"] },
+    name: { value: "", type: "text", titleOptions: ["Name", "Boy's Name", "Girl's Name"], restrictNumbers: true },
+    date_of_birth: { day: "", month: "", year: "", varr: "", type: "date", titleOptions: ["Date of Birth", "DOB"] },
+    time_of_birth: { hour: "", minute: "", period: "", type: "time" },
+    place_of_birth: { value: "", type: "text", titleOptions: ["Place of Birth", "Birth Place"] },
 
-    जन्मनाव: { value: "", type: "text", titleOptions: ["जन्मनाव", "नावरस नाव", "रास नाव"], restrictNumbers: true },
-    धर्म: { value: "", type: "text", titleOptions: ["धर्म"], restrictNumbers: true },
-    जात: { value: "", type: "text", titleOptions: ["जात"]},
-    कुलदैवत: { value: "", type: "text", titleOptions: ["कुलदैवत"],restrictNumbers: true },
-    देवक: { value: "", type: "text", titleOptions: ["देवक"],restrictNumbers: true },
+    birth_name: { value: "", type: "text", titleOptions: ["Birth Name", "Nickname", "Rashi Name"], restrictNumbers: true },
+    religion: { value: "", type: "text", titleOptions: ["Religion"], restrictNumbers: true },
+    caste: { value: "", type: "text", titleOptions: ["Caste"] },
+    family_deity: { value: "", type: "text", titleOptions: ["Family Deity"], restrictNumbers: true },
+    devak: { value: "", type: "text", titleOptions: ["Devak"], restrictNumbers: true },
 
-    गोत्र: { value: "", type: "select", titleOptions: ["गोत्र"] },
-    नक्षत्र: { value: "", type: "select", titleOptions: ["नक्षत्र"] },
-    रास: { value: "", type: "select", titleOptions: ["रास"] },
-    गण: { value: "", type: "select", titleOptions: ["गण"] },
-    नाडी: { value: "", type: "select", titleOptions: ["नाडी"] },
-    ऊंची: { value: "", type: "select", titleOptions: ["ऊंची"] },
-    रंग: { value: "", type: "select", titleOptions: ["रंग", "वर्ण"] },
-    रक्तगट: { value: "", type: "select", titleOptions: ["रक्तगट"] },
-    शिक्षण: { value: "", type: "text", titleOptions: ["शिक्षण"] },
-    नोकरी: { value: "", type: "text", titleOptions: ["नोकरी", "व्यवसाय"] },
-    पगार: { value: "", type: "text", titleOptions: ["पगार(वार्षिक)", "वेतन(वार्षिक)" , "उत्पन्न(वार्षिक)"] },
-    इतर_माहिती: { value: "", type: "text", titleOptions: ["इतर_माहिती"] },
+    gotra: { value: "", type: "select", titleOptions: ["Gotra"] },
+    nakshatra: { value: "", type: "select", titleOptions: ["Nakshatra"] },
+    rashi: { value: "", type: "select", titleOptions: ["Rashi"] },
+    gana: { value: "", type: "select", titleOptions: ["Gana"] },
+    nadi: { value: "", type: "select", titleOptions: ["Nadi"] },
+    height: { value: "", type: "select", titleOptions: ["Height"] },
+    complexion: { value: "", type: "select", titleOptions: ["Complexion", "Skin tone"] },
+    blood_group: { value: "", type: "select", titleOptions: ["Blood Group"] },
+    education: { value: "", type: "text", titleOptions: ["Education"] },
+    profession: { value: "", type: "text", titleOptions: ["Profession", "Occupation"] },
+    annual_income: { value: "", type: "text", titleOptions: ["Annual Income", "Salary (Annual)", "Income (Annual)"] },
+    other_information: { value: "", type: "text", titleOptions: ["Other Information"] },
 
-    वडिलांचे_नाव: { value: "", type: "text", titleOptions: ["वडिलांचे_नाव"], restrictNumbers: true },
-    वडिलांचा_व्यवसाय: { value: "", type: "text", titleOptions: ["वडिलांचा_व्यवसाय"] },
-    आईचे_नाव: { value: "", type: "text", titleOptions: ["आईचे_नाव"], restrictNumbers: true },
-    बहीण: [{ value: "", type: "text", titleOptions: ["बहीण"], maritalStatus: "", restrictNumbers: true }],
-    भाऊ: [{ value: "", type: "text", titleOptions: ["भाऊ"], maritalStatus: "", restrictNumbers: true }],
-    मामा: [{ value: "", type: "text", titleOptions: ["मामा"], restrictNumbers: true }],
-    दाजी: [{ value: "", type: "text", titleOptions: ["दाजी"], restrictNumbers: true }],
-    चूलते: [{ value: "", type: "text", titleOptions: ["चूलते"], restrictNumbers: true  }],
-    नातेसंबंध: { value: "", type: "text", titleOptions: ["नातेसंबंध"], restrictNumbers: true  },
-    इतर: { value: "", type: "text", titleOptions: ["इतर"] },
+    fathers_name: { value: "", type: "text", titleOptions: ["Father's Name"], restrictNumbers: true },
+    fathers_occupation: { value: "", type: "text", titleOptions: ["Father's Occupation"] },
+    mothers_name: { value: "", type: "text", titleOptions: ["Mother's Name"], restrictNumbers: true },
+    sisters: [{ value: "", type: "text", titleOptions: ["Sister(s)"], maritalStatus: "", restrictNumbers: true }],
+    brothers: [{ value: "", type: "text", titleOptions: ["Brother(s)"], maritalStatus: "", restrictNumbers: true }],
+    maternal_uncles: [{ value: "", type: "text", titleOptions: ["Maternal Uncle(s)"], restrictNumbers: true }],
+    brothers_in_law: [{ value: "", type: "text", titleOptions: ["Brother-in-law(s)"], restrictNumbers: true }],
+    paternal_uncles: [{ value: "", type: "text", titleOptions: ["Paternal Uncle(s)"], restrictNumbers: true }],
+    relatives: { value: "", type: "text", titleOptions: ["Relatives"], restrictNumbers: true },
+    other: { value: "", type: "text", titleOptions: ["Other"] },
 
-    पत्ता: { value: "", type: "text", titleOptions: ["पत्ता"] },
-    मोबाईल_नं: { value: "", type: "text", titleOptions: ["मोबाईल_नं"] },
-    
+    address: { value: "", type: "text", titleOptions: ["Address"] },
+    mobile_number: { value: "", type: "text", titleOptions: ["Mobile Number"] },
   });
   
 
@@ -363,9 +360,9 @@ const handleArrayChange = (e, index, field) => {
   const periods = ["AM", "PM"];
 
   const selectOptions = {
-    रंग: ["Fair", "Very fair", "Wheatish", "Dusky", "Dark"],
-    रक्तगट: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
-    ऊंची: [
+    complexion: ["Fair", "Very fair", "Wheatish", "Dusky", "Dark"],
+    blood_group: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+    height: [
       "4'4\"",
       "4'5\"",
       "4'6\"",
@@ -396,21 +393,21 @@ const handleArrayChange = (e, index, field) => {
       "6'7\"",
       "6'8\""
   ],
-    नाडी: ["Adi", "Madhya", "Antya"],
-    गण: ["Deva", "Manushya", "Rakshasa"],
-    रास: ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"],
-    नक्षत्र: ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishtha", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"],
-    गोत्र: ["Kashyap", "Bharadwaj", "Atri", "Vashishtha", "Vishwamitra", "Jamadagni", "Gautam", "Shandilya"],
-    };
+    nadi: ["Adi", "Madhya", "Antya"],
+    gana: ["Deva", "Manushya", "Rakshasa"],
+    rashi: ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"],
+    nakshatra: ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishtha", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"],
+    gotra: ["Kashyap", "Bharadwaj", "Atri", "Vashishtha", "Vishwamitra", "Jamadagni", "Gautam", "Shandilya"],
+  };
 
-  const REQUIRED_FIELD_KEYS = ["नाव", "जन्मतारीख", "जन्मवेळ", "वडिलांचे_नाव", "पत्ता", "मोबाईल_नं"];
+  const REQUIRED_FIELD_KEYS = ["name", "date_of_birth", "time_of_birth", "fathers_name", "address", "mobile_number"];
 
   const formSections = [
-    { id: "personal", title: SECTION_TITLES_EN.personal, keys: ["नाव", "जन्मतारीख", "जन्मवेळ", "जन्मस्थान", "जन्मनाव", "धर्म", "जात", "कुलदैवत", "देवक"] },
-    { id: "astrology", title: SECTION_TITLES_EN.astrology, keys: ["गोत्र", "नक्षत्र", "रास", "गण", "नाडी", "ऊंची", "रंग", "रक्तगट"] },
-    { id: "education", title: SECTION_TITLES_EN.education, keys: ["शिक्षण", "नोकरी", "पगार", "इतर_माहिती"] },
-    { id: "family", title: SECTION_TITLES_EN.family, keys: ["वडिलांचे_नाव", "वडिलांचा_व्यवसाय", "आईचे_नाव", "बहीण", "भाऊ", "मामा", "दाजी", "चूलते", "नातेसंबंध", "इतर"] },
-    { id: "contact", title: SECTION_TITLES_EN.contact, keys: ["पत्ता", "मोबाईल_नं"] },
+    { id: "personal", title: SECTION_TITLES_EN.personal, keys: ["name", "date_of_birth", "time_of_birth", "place_of_birth", "birth_name", "religion", "caste", "family_deity", "devak"] },
+    { id: "astrology", title: SECTION_TITLES_EN.astrology, keys: ["gotra", "nakshatra", "rashi", "gana", "nadi", "height", "complexion", "blood_group"] },
+    { id: "education", title: SECTION_TITLES_EN.education, keys: ["education", "profession", "annual_income", "other_information"] },
+    { id: "family", title: SECTION_TITLES_EN.family, keys: ["fathers_name", "fathers_occupation", "mothers_name", "sisters", "brothers", "maternal_uncles", "brothers_in_law", "paternal_uncles", "relatives", "other"] },
+    { id: "contact", title: SECTION_TITLES_EN.contact, keys: ["address", "mobile_number"] },
   ];
 
   return (
@@ -650,7 +647,7 @@ const handleArrayChange = (e, index, field) => {
               </div>
             );
           } 
-          else if (field === "वडिलांचे_नाव") {
+          else if (field === "fathers_name") {
             return (
               <div key={field} className={`col-12 col-md-6 ${wrapperClass}`}>
                 <label className="form-label fw-medium text-dark">{titleOptions[0]}{isRequired && requiredLabel}</label>
@@ -671,7 +668,7 @@ const handleArrayChange = (e, index, field) => {
               </div>
             );
           }
-          else if (field === "पत्ता") {
+          else if (field === "address") {
             return (
               <div key={field} className={`col-12 col-md-6 ${wrapperClass}`}>
                 <label className="form-label fw-medium text-dark">{titleOptions[0]}{isRequired && requiredLabel}</label>
@@ -712,7 +709,7 @@ const handleArrayChange = (e, index, field) => {
               </div>
             );
           } else {
-            // const isDeityField = field === "कुलदैवत" || field === "देवक";
+            // const isDeityField = field === "family_deity" || field === "devak";
             const isDeityField = false;
             return (
               <div key={field} className={`col-12 col-md-6 ${wrapperClass} ${isDeityField ? "deity-accent rounded p-3" : ""}`}>

@@ -113,7 +113,7 @@ const PreviewPage = () => {
 
       const url = URL.createObjectURL(pdfBlob);
       const link = document.createElement("a");
-      const userName = formData["नाव"]?.value || "download";
+      const userName = formData.name?.value || "download";
       link.href = url;
       link.download = `${userName}_biodata.pdf`;
       link.click();
@@ -139,7 +139,7 @@ const PreviewPage = () => {
       });
 
       doc.addImage(pdfImage, "PNG", 0, 0, 600, 800);
-      const userName = formData["नाव"]?.value || "download";
+      const userName = formData.name?.value || "download";
       doc.save(`${userName}_biodata_with_watermark.pdf`);
     } catch (error) {
       // Watermark PDF failed
@@ -235,10 +235,10 @@ const PreviewPage = () => {
 
   return (
     <div className="container py-4 py-lg-5">
-      <h1 className="h2 fw-bold text-center marathi-text mb-2">
+      <h1 className="h2 fw-bold text-center app-body-text mb-2">
         Preview — Template {templateId}
       </h1>
-      <p className="text-muted text-center marathi-text mb-4">
+      <p className="text-muted text-center app-body-text mb-4">
         Your biodata is ready. Use the options below.
       </p>
 
@@ -304,7 +304,7 @@ const PreviewPage = () => {
 
           <div className="card border-0 shadow-sm mb-4 rounded-3">
             <div className="card-body p-4 p-md-5">
-              <p className="small fw-bold mb-3 marathi-text">
+              <p className="small fw-bold mb-3 app-body-text">
                 Change template:
               </p>
               <div className="d-flex flex-wrap gap-2 justify-content-center">
