@@ -155,7 +155,7 @@ const PreviewPage = () => {
 
   const options = {
     key: "rzp_live_SKnSlI6Vodp57D",
-    amount: 2900,
+    amount: 4900,
     currency: "INR",
     name: "MazaBiodata",
     description: "Download PDF without watermark",
@@ -166,7 +166,7 @@ const PreviewPage = () => {
           "https://algoloomtech.solutions/mazabiodata/capture-payment.php",
           {
             payment_id: response.razorpay_payment_id,
-            amount: 2900,
+            amount: 4900,
           },
           {
             headers: { "Content-Type": "application/json" },
