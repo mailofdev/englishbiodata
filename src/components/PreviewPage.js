@@ -367,7 +367,7 @@ const PreviewPage = () => {
                   onClick={handlePhonePePayment}
                   disabled={isPhonePeProcessing}
                 >
-                  {isPhonePeProcessing ? "Starting PhonePe..." : "Pay with PhonePe & Download"}
+                  {isPhonePeProcessing ? "Starting PhonePe..." : "Pay & Download"}
                 </button>
                 <button type="button" className="btn btn-outline-info" onClick={handleEditClick}>
                   Edit details
