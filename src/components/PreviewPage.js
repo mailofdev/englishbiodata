@@ -14,6 +14,9 @@ const PreviewPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { showToast } = useToast();
+  // CRA / Vite: must be defined at build time. On Vercel set REACT_APP_API_BASE_URL (no trailing slash).
+  const apiBaseUrl = (process.env.REACT_APP_API_BASE_URL || "").trim().replace(/\/$/, "");
+
   const PHONEPE_CONTEXT_KEY = "pendingPhonePeContext";
   const PHONEPE_ORDER_KEY = "pendingPhonePeOrderId";
   const hasVerifiedPaymentRef = useRef(false);
@@ -219,7 +222,6 @@ const PreviewPage = () => {
   useEffect(() => {
     const verifyPayment = async () => {
       if (hasVerifiedPaymentRef.current) return;
-      hasVerifiedPaymentRef.current = true;
 
       const params = new URLSearchParams(window.location.search);
       const orderId =
@@ -228,7 +230,17 @@ const PreviewPage = () => {
         localStorage.getItem(PHONEPE_ORDER_KEY);
   
       if (!orderId) return;
-  
+
+      if (!apiBaseUrl) {
+        showToast(
+          "Payment API is not configured. Add REACT_APP_API_BASE_URL in Vercel and redeploy.",
+          "error"
+        );
+        return;
+      }
+
+      hasVerifiedPaymentRef.current = true;
+
       try {
         setShowLoader(true);
         let res;
@@ -236,9 +248,7 @@ const PreviewPage = () => {
 
         for (let attempt = 1; attempt <= 3; attempt += 1) {
           try {
-            res = await axios.get(
-              `${process.env.REACT_APP_API_BASE_URL}/api/phonepe/status/${orderId}`
-            );
+            res = await axios.get(`${apiBaseUrl}/api/phonepe/status/${orderId}`);
             break;
           } catch (err) {
             lastError = err;
@@ -274,19 +284,24 @@ const PreviewPage = () => {
     };
   
     verifyPayment();
-  }, [downloadPDF, getApiErrorMessage, showToast]);
+  }, [apiBaseUrl, downloadPDF, getApiErrorMessage, showToast]);
 
   const handlePhonePePayment = async () => {
+    if (!apiBaseUrl) {
+      showToast(
+        "Payment API is not configured. Add REACT_APP_API_BASE_URL in Vercel (your backend URL) and redeploy.",
+        "error"
+      );
+      return;
+    }
+
     try {
       setIsPhonePeProcessing(true);
       setShowLoader(true);
   
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/api/phonepe/create-payment`,
-        {
-          amount: 49, // ₹49
-        }
-      );
+      const res = await axios.post(`${apiBaseUrl}/api/phonepe/create-payment`, {
+        amount: 49, // ₹49
+      });
   
       const redirectUrl = res.data?.redirectUrl || res.data?.data?.redirectUrl;
       const createdOrderId = res.data?.orderId || res.data?.data?.orderId;
