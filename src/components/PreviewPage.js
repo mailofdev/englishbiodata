@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { pdf } from "@react-pdf/renderer";
 import PDFDocument from "./pdf/PDFDocument";
@@ -14,7 +14,28 @@ const PreviewPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { showToast } = useToast();
-  const { formData, templateId: initialTemplateId, imagePreview, centerText } = location.state || {};
+  const PHONEPE_CONTEXT_KEY = "pendingPhonePeContext";
+  const PHONEPE_ORDER_KEY = "pendingPhonePeOrderId";
+  const hasVerifiedPaymentRef = useRef(false);
+
+  const restorePhonePeContext = () => {
+    try {
+      const raw = localStorage.getItem(PHONEPE_CONTEXT_KEY);
+      if (!raw) return {};
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === "object" ? parsed : {};
+    } catch (e) {
+      return {};
+    }
+  };
+
+  const restoredContext = restorePhonePeContext();
+  const currentState = location.state || {};
+
+  const formData = currentState.formData || restoredContext.formData;
+  const initialTemplateId = currentState.templateId ?? restoredContext.templateId;
+  const imagePreview = currentState.imagePreview || restoredContext.imagePreview;
+  const centerText = currentState.centerText || restoredContext.centerText;
   const [additionalImage] = useState(() => {
     const storedImage = localStorage.getItem("croppedImage");
     return storedImage || null;
@@ -23,11 +44,12 @@ const PreviewPage = () => {
   // Normalize to number 1-12 so template selection and PDFDocument stay in sync
   const [templateId, setTemplateId] = useState(() => {
     const t = Number(initialTemplateId);
-    return (t >= 1 && t <= 12) ? t : 1;
+    return t >= 1 && t <= 12 ? t : 1;
   });
   const [loading, setLoading] = useState(false);
   const [pdfImage, setPdfImage] = useState(null);
   const [showLoader, setShowLoader] = useState(false);
+  const [isPhonePeProcessing, setIsPhonePeProcessing] = useState(false);
 
   const templates = Array.from({ length: 12 }, (_, i) => i + 1);
 
@@ -67,11 +89,11 @@ const PreviewPage = () => {
         const text = "mazabiodata.com";
         const margin = 180;
         const positions = [
-          [margin, margin],           // top-left
-          [w - margin, margin],        // top-right
-          [w/2, h/2],                   // center
-          [margin, h - margin],        // bottom-left
-          [w - margin, h - margin],    // bottom-right
+          [margin, margin],
+          [w - margin, margin],
+          [w / 2, h / 2],
+          [margin, h - margin],
+          [w - margin, h - margin],
         ];
         context.font = "bold 56px Arial";
         context.fillStyle = "rgba(90, 90, 90, 0.32)";
@@ -98,7 +120,12 @@ const PreviewPage = () => {
   }, [formData, templateId, additionalImage, imagePreview, centerText]);
 
   // Download PDF without watermark (clean version)
-  const downloadPDF = async () => {
+  const downloadPDF = useCallback(async () => {
+    if (!formData || typeof formData !== "object") {
+      showToast("Unable to download PDF: biodata details are missing.", "error");
+      return;
+    }
+
     setShowLoader(true);
     try {
       const pdfBlob = await pdf(
@@ -122,7 +149,7 @@ const PreviewPage = () => {
     } finally {
       setShowLoader(false);
     }
-  };
+  }, [formData, templateId, additionalImage, imagePreview, centerText, showToast]);
 
   // Download PDF with watermark (unchanged)
   const downloadPDFWithWatermark = async () => {
@@ -146,80 +173,21 @@ const PreviewPage = () => {
     }
   };
 
-  // Handle payment and download via PHP backend
-  const handlePaymentAndDownload = async () => {
-  if (!window.Razorpay) {
-    showToast("Razorpay SDK failed to load. Are you online?", "error");
-    return;
-  }
-
-  const options = {
-    key: "rzp_live_SKnSlI6Vodp57D",
-    amount: 4900,
-    currency: "INR",
-    name: "MazaBiodata",
-    description: "Download PDF without watermark",
-    handler: async function (response) {
-      setShowLoader(true);
-      try {
-        const verificationRes = await axios.post(
-          "https://algoloomtech.solutions/mazabiodata/capture-payment.php",
-          {
-            payment_id: response.razorpay_payment_id,
-            amount: 4900,
-          },
-          {
-            headers: { "Content-Type": "application/json" },
-            timeout: 10000, // 10 second timeout
-          }
-        );
-
-        if (verificationRes.data.success) {
-          await downloadPDF();
-          showToast("Payment successful! Your download has started.", "success");
-        } else {
-          showToast(
-            "Payment verification failed: " +
-              (verificationRes.data.message || "Unknown error"),
-            "error"
-          );
-        }
-      } catch (error) {
-        if (error.code === 'ECONNABORTED') {
-          showToast("Request timeout. Please check your internet and try again.", "error");
-        } else if (error.response) {
-          const data = error.response.data;
-          let message = `Server error: ${error.response.status}`;
-          if (data && data.message) message += ` - ${data.message}`;
-          if (data && data.details) {
-            message += `\nExpected: ${data.details.expected_amount} paise, Received: ${data.details.received_amount} paise, Status: ${data.details.status}`;
-          }
-          showToast(message, "error");
-        } else if (error.request) {
-          // The request was made but no response received
-          showToast("No response from server. Please check if your backend is reachable.", "error");
-        } else {
-          showToast("Something went wrong. Please try again or contact support.", "error");
-        }
-      } finally {
-        setShowLoader(false);
-      }
-    },
-    prefill: {
-      name: "Mazabiodata",
-      email: "mazabiodata@gmail.com",
-      contact: "917776914543",
-    },
-    theme: {
-      color: "#5C2D6E",
-    },
-  };
-
-  const paymentObject = new window.Razorpay(options);
-  paymentObject.open();
-};
-
-
+  const getApiErrorMessage = useCallback((error, fallbackMessage) => {
+    if (error?.code === "ECONNABORTED") {
+      return "Request timed out. Please check your internet connection and try again.";
+    }
+    if (error?.response?.data?.message) {
+      return error.response.data.message;
+    }
+    if (error?.response?.status) {
+      return `${fallbackMessage} (HTTP ${error.response.status})`;
+    }
+    if (error?.request) {
+      return "No response from server. Please ensure API server is running.";
+    }
+    return fallbackMessage;
+  }, []);
 
   const handleEditClick = () => {
     navigate("/input-form/1", {
@@ -233,11 +201,128 @@ const PreviewPage = () => {
     });
   };
 
+  useEffect(() => {
+    if (location.state?.formData) {
+      localStorage.setItem(
+        PHONEPE_CONTEXT_KEY,
+        JSON.stringify({
+          formData: location.state.formData,
+          templateId,
+          imagePreview,
+          centerText,
+          additionalImage,
+        })
+      );
+    }
+  }, [location.state, templateId, imagePreview, centerText, additionalImage]);
+
+  useEffect(() => {
+    const verifyPayment = async () => {
+      if (hasVerifiedPaymentRef.current) return;
+      hasVerifiedPaymentRef.current = true;
+
+      const params = new URLSearchParams(window.location.search);
+      const orderId =
+        params.get("merchantOrderId") ||
+        params.get("orderId") ||
+        localStorage.getItem(PHONEPE_ORDER_KEY);
+  
+      if (!orderId) return;
+  
+      try {
+        setShowLoader(true);
+        let res;
+        let lastError;
+
+        for (let attempt = 1; attempt <= 3; attempt += 1) {
+          try {
+            res = await axios.get(
+              `${process.env.REACT_APP_API_BASE_URL}/api/phonepe/status/${orderId}`
+            );
+            break;
+          } catch (err) {
+            lastError = err;
+            const isRateLimited = err?.response?.status === 429;
+            if (!isRateLimited || attempt === 3) {
+              throw err;
+            }
+            // Backoff for transient PhonePe throttle
+            await new Promise((resolve) => setTimeout(resolve, attempt * 1200));
+          }
+        }
+
+        if (!res && lastError) throw lastError;
+  
+        const status = res.data?.state || res.data?.data?.state;
+  
+        if (status === "COMPLETED") {
+          await downloadPDF();
+          showToast("Payment successful! Your download has started.", "success");
+        } else {
+          showToast(`Payment status: ${status || "UNKNOWN"}.`, "warning");
+        }
+      } catch (err) {
+        showToast(getApiErrorMessage(err, "Payment verification failed."), "error");
+      } finally {
+        localStorage.removeItem(PHONEPE_ORDER_KEY);
+        localStorage.removeItem(PHONEPE_CONTEXT_KEY);
+        // Remove order query params after verification to avoid repeated checks
+        const cleanUrl = `${window.location.origin}${window.location.pathname}`;
+        window.history.replaceState({}, "", cleanUrl);
+        setShowLoader(false);
+      }
+    };
+  
+    verifyPayment();
+  }, [downloadPDF, getApiErrorMessage, showToast]);
+
+  const handlePhonePePayment = async () => {
+    try {
+      setIsPhonePeProcessing(true);
+      setShowLoader(true);
+  
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/api/phonepe/create-payment`,
+        {
+          amount: 49, // ₹49
+        }
+      );
+  
+      const redirectUrl = res.data?.redirectUrl || res.data?.data?.redirectUrl;
+      const createdOrderId = res.data?.orderId || res.data?.data?.orderId;
+
+      if (createdOrderId) {
+        localStorage.setItem(PHONEPE_ORDER_KEY, createdOrderId);
+      }
+      localStorage.setItem(
+        PHONEPE_CONTEXT_KEY,
+        JSON.stringify({
+          formData,
+          templateId,
+          imagePreview,
+          centerText,
+          additionalImage,
+        })
+      );
+  
+      if (!redirectUrl) {
+        throw new Error("No redirect URL received");
+      }
+  
+      // Redirect to PhonePe payment page
+      window.location.href = redirectUrl;
+  
+    } catch (error) {
+      showToast(getApiErrorMessage(error, "Payment initiation failed."), "error");
+    } finally {
+      setIsPhonePeProcessing(false);
+      setShowLoader(false);
+    }
+  };
+
   return (
     <div className="container py-4 py-lg-5">
-      <h1 className="h2 fw-bold text-center app-body-text mb-2">
-        Preview — Template {templateId}
-      </h1>
+      <h1 className="h2 fw-bold text-center app-body-text mb-2">Preview - Template {templateId}</h1>
       <p className="text-muted text-center app-body-text mb-4">
         Your biodata is ready. Use the options below.
       </p>
@@ -248,11 +333,7 @@ const PreviewPage = () => {
             <div className="card-body p-4 p-md-5 text-center">
               {loading ? (
                 <div className="py-5">
-                  <div
-                    className="spinner-border text-primary"
-                    role="status"
-                    aria-label="Loading"
-                  >
+                  <div className="spinner-border text-primary" role="status" aria-label="Loading">
                     <span className="visually-hidden">Loading...</span>
                   </div>
                   <p className="mt-2 small text-muted">Loading...</p>
@@ -277,25 +358,18 @@ const PreviewPage = () => {
                 Download or Edit
               </h2>
               <div className="d-flex flex-wrap gap-3 justify-content-center">
-                <button
-                  type="button"
-                  className="btn btn-outline-primary"
-                  onClick={downloadPDFWithWatermark}
-                >
+                <button type="button" className="btn btn-outline-primary" onClick={downloadPDFWithWatermark}>
                   Download with watermark
                 </button>
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={handlePaymentAndDownload}
+                  onClick={handlePhonePePayment}
+                  disabled={isPhonePeProcessing}
                 >
-                  Pay & download
+                  {isPhonePeProcessing ? "Starting PhonePe..." : "Pay with PhonePe & Download"}
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-outline-info"
-                  onClick={handleEditClick}
-                >
+                <button type="button" className="btn btn-outline-info" onClick={handleEditClick}>
                   Edit details
                 </button>
               </div>
@@ -304,18 +378,14 @@ const PreviewPage = () => {
 
           <div className="card border-0 shadow-sm mb-4 rounded-3">
             <div className="card-body p-4 p-md-5">
-              <p className="small fw-bold mb-3 app-body-text">
-                Change template:
-              </p>
+              <p className="small fw-bold mb-3 app-body-text">Change template:</p>
               <div className="d-flex flex-wrap gap-2 justify-content-center">
                 {templates.map((id) => (
                   <button
                     key={id}
                     type="button"
                     className={`btn p-0 border rounded overflow-hidden ${
-                      templateId === id
-                        ? "border-primary border-3"
-                        : "border-secondary"
+                      templateId === id ? "border-primary border-3" : "border-secondary"
                     }`}
                     style={{ width: 56, height: 72 }}
                     onClick={() => setTemplateId(id)}
@@ -349,3 +419,4 @@ const PreviewPage = () => {
 };
 
 export default PreviewPage;
+
