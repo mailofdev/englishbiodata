@@ -194,7 +194,7 @@ const PreviewPage = () => {
   }, []);
 
   const handleEditClick = () => {
-    navigate("/input-form/1", {
+    navigate(`/input-form/${templateId}`, {
       state: {
         initialFormData: formData,
         imagePreview,

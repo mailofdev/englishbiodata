@@ -72,7 +72,7 @@ const InputFormPage = () => {
   const navigate = useNavigate();
   const { templateId } = useParams();
   const location = useLocation();
-  const initialFormData = location.state?.initialFormData; // Ensure this line exists and correctly references the passed state
+  const initialFormData = location.state?.initialFormData || location.state?.formData;
 
 
   useEffect(() => {
@@ -121,7 +121,7 @@ const InputFormPage = () => {
   });
   
 
-  const [imagePreview, setImagePreview] = useState(ganeshaImg);
+  const [imagePreview, setImagePreview] = useState(location.state?.imagePreview || ganeshaImg);
 const [additionalImage, setAdditionalImage] = useState(location.state?.additionalImage || null);
   const [centerText, setCenterText] = useState("|| Shri Ganeshaya Namah ||");
   const [missingFields, setMissingFields] = useState([]);
@@ -132,6 +132,22 @@ const [additionalImage, setAdditionalImage] = useState(location.state?.additiona
     bismillahImg,
     christImg,
   ];
+
+  useEffect(() => {
+    if (!location.state) return;
+    if (location.state.initialFormData || location.state.formData) {
+      setFormData(location.state.initialFormData || location.state.formData);
+    }
+    if (location.state.imagePreview) {
+      setImagePreview(location.state.imagePreview);
+    }
+    if (location.state.additionalImage) {
+      setAdditionalImage(location.state.additionalImage);
+    }
+    if (location.state.centerText) {
+      setCenterText(location.state.centerText);
+    }
+  }, [location.state]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
