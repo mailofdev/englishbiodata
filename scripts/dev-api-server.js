@@ -40,7 +40,7 @@ const KUNDLI_MATCH_URL =
   process.env.ASTROLOGY_KUNDLI_MATCH_URL ||
   "https://api.astrology-api.io/api/v3/vedic/kundli-matching";
 const PHONEPE_BASE_URL =
-  process.env.PHONEPE_BASE_URL || "https://api-preprod.phonepe.com/apis/pg-sandbox";
+  process.env.PHONEPE_BASE_URL || "https://api.phonepe.com/apis/pg";
 const isPhonePePreprod = PHONEPE_BASE_URL.includes("api-preprod.phonepe.com");
 const derivedOauthBaseUrl = isPhonePePreprod
   ? PHONEPE_BASE_URL

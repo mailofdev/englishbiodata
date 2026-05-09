@@ -1,6 +1,6 @@
 function getPhonePeConfig() {
   const phonepeBaseUrl =
-    process.env.PHONEPE_BASE_URL || "https://api-preprod.phonepe.com/apis/pg-sandbox";
+    process.env.PHONEPE_BASE_URL || "https://api.phonepe.com/apis/pg";
   const isPreprod = phonepeBaseUrl.includes("api-preprod.phonepe.com");
   const oauthBaseUrl = process.env.PHONEPE_OAUTH_BASE_URL
     || (isPreprod ? phonepeBaseUrl : phonepeBaseUrl.replace(/\/pg$/, "/identity-manager"));
